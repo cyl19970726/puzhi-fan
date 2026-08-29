@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-30 02:13:13",
+  "generated_at": "2026-08-30 05:01:42",
   "generated_by": "pipeline/status.py",
   "stages": [
     {
@@ -122,7 +122,7 @@
         {
           "path": "cad/*.glb",
           "exists": true,
-          "mtime": "2026-08-30 02:10"
+          "mtime": "2026-08-30 04:52"
         }
       ],
       "gate": "agent 亲自看图验收；mesh 命名映射 M1–M8",
@@ -138,7 +138,7 @@
         {
           "path": "data/decisions.json",
           "exists": true,
-          "mtime": "2026-08-29 01:32"
+          "mtime": "2026-08-30 05:01"
         }
       ],
       "gate": "每个「已验收/已选定」状态必须有 decision 记录（口头验收不算）",

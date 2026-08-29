@@ -1,71 +1,81 @@
 {
-  "updated": "2026-08-29",
-  "schema": "[{id, 日期, 对象, verdict(认可/否决/转向), 原话, 后续动作}]",
-  "decisions": [
-    {
-      "id": "D-2026-08-15-01",
-      "date": "2026-08-15",
-      "object": "品类定位：手持三用 → 桌面风扇 → 桌面小空调",
-      "verdict": "转向",
-      "quote": "「以及我们里面还要有半导体可以降温的…我们这个应该是空调」[U-L27476，dsh 会话 22dbccff]",
-      "action": "品类锁定桌面小空调（TEC 半导体制冷必须在）；命名/话术不用「风扇」做主品类词；固化为硬约束 C1，写入 requirements-brief.md §2",
-      "evidence": [
-        "docs/handoff-research-audit-22dbccff.md",
-        "requirements/requirements-brief.md §8 变更日志"
-      ]
-    },
-    {
-      "id": "D-2026-08-28-01",
-      "date": "2026-08-28",
-      "object": "旧概念图 concepts/concept_1–5.png（selection_sheet 五张形态图）",
-      "verdict": "否决",
-      "quote": "原话摘要：「要给多种不同的形态，不要都是类似的形态…分析现有的竞品形态，然后趋势是什么」[U-L26588]；「它现在的产品设计太 naive，跟他在淘宝找到的竞品不是一个等级的」[U-L10]",
-      "action": "重设计：诊断「五张一张脸」三条病灶（同形态语言换皮/无制冷可读性/底座只是装饰）→ 产出 design/form-directions.md 方向 A–E（形态语言互不重合）；C4 升级为硬约束；Q1 形态方向待用户拍板",
-      "evidence": [
-        "design/form-directions.md §0",
-        "docs/handoff-research-audit-22dbccff.md",
-        "requirements/requirements-brief.md §8 变更日志"
-      ]
-    },
-    {
-      "id": "D-2026-08-28-02",
-      "date": "2026-08-28",
-      "object": "Q1 形态方向（工作假设）",
-      "verdict": "推进中（可逆工作假设，非最终选定）",
-      "quote": "用户：『可以按照这个方式来实现』（对四层方法论的批准；Q1 正式拍板仍开放）",
-      "rationale": "A 在制冷可读性/差异化/架构协同上评分最高（forms.json 六维），专利预检索评级中且规避设计已成文；内部工程核心与外壳解耦，若最终选 B/D 可换壳复用。",
-      "evidence": "design/form-directions.md §7 对比矩阵；research/patent_avoidance.md §3-A",
-      "action": "以 A 为壳推进装配体工程细化（风道贯通/壁厚拔模/联动机构）+ RFQ 设计意图包；用户正式否决即回退"
-    },
-    {
-      "id": "D-2026-08-29-01",
-      "date": "2026-08-29",
-      "object": "Q1 形态方向",
-      "verdict": "选定 A 桌面挂机（用户授权代理决策）",
-      "quote": "用户：『这些我觉得你都可以做 核心是把我们的3d 包括可以看内部结构的3d完整实现好 对目前的这几个候选的都要做』",
-      "rationale": "A 六维评分最高：挂机语言品类零占位（制冷可读性★5）、双风道 ADR-1 收益最大、导风板扫风消解摇头机构 ADR-3 风险、专利预检索评级中且规避设计成文；B/D 同步完成工程装配体作为备份与对比基线，A 若 FTO/手板翻车则 D 保底（form-directions §7）。",
-      "evidence": "data/forms.json 六维评分；research/patent_avoidance.md §3-A",
-      "action": "A 为主推进 RFQ/手板/FTO；B/D 工程装配体补齐后工作台④支持三形态装配体切换"
-    },
-    {
-      "id": "D-2026-08-29-02",
-      "date": "2026-08-29",
-      "object": "Q2 ¥69 风冷走量款去留",
-      "verdict": "砍掉（用户授权代理决策）",
-      "quote": "同上",
-      "rationale": "风冷款与 C1（品类=小空调）冲突：¥69 风冷会把品牌锚回『风扇』心智（¥20–70 红海，N3）；三 SKU 共模省下的模具费抵不过品类话术稀释的代价；聚焦双 SKU（Cool ¥119–129 / Pro ¥159）与竞品制冷带正面对打。",
-      "evidence": "requirements-brief N3/C1；research/taobao_desktop_fans.md §2 A 档红海",
-      "action": "design-spec v3.2 SKU 矩阵修订为双 SKU；BOM/成本模型去掉风冷款"
-    },
-    {
-      "id": "D-2026-08-29-03",
-      "date": "2026-08-29",
-      "object": "Q3 BOM 超标 ≈¥20 出路",
-      "verdict": "组合策略：询价压实为先，达不到则 Cool 定价 ¥129（用户授权代理决策）",
-      "quote": "同上",
-      "rationale": "搜索卡片价普遍有 20–30% 量议空间，电池/注塑/PCB 三大项询价后出厂有望落入 ¥65–72；若仍超，¥129 定价仍压 soip ¥128 且多温度数显差异化，毛利率可保。红线：不通过降 TEC/电池规格压成本（那会杀死 F1/F6）。",
-      "evidence": "architecture/product-architecture.md §8.3；data/bom.json cost_summary",
-      "action": "08-29 10:23 旺旺跟进以 ¥65–72 出厂目标谈判；报价回填 bom.json 后复核 R8"
-    }
-  ]
+ "updated": "2026-08-30",
+ "schema": "[{id, 日期, 对象, verdict(认可/否决/转向), 原话, 后续动作}]",
+ "decisions": [
+  {
+   "id": "D-2026-08-15-01",
+   "date": "2026-08-15",
+   "object": "品类定位：手持三用 → 桌面风扇 → 桌面小空调",
+   "verdict": "转向",
+   "quote": "「以及我们里面还要有半导体可以降温的…我们这个应该是空调」[U-L27476，dsh 会话 22dbccff]",
+   "action": "品类锁定桌面小空调（TEC 半导体制冷必须在）；命名/话术不用「风扇」做主品类词；固化为硬约束 C1，写入 requirements-brief.md §2",
+   "evidence": [
+    "docs/handoff-research-audit-22dbccff.md",
+    "requirements/requirements-brief.md §8 变更日志"
+   ]
+  },
+  {
+   "id": "D-2026-08-28-01",
+   "date": "2026-08-28",
+   "object": "旧概念图 concepts/concept_1–5.png（selection_sheet 五张形态图）",
+   "verdict": "否决",
+   "quote": "原话摘要：「要给多种不同的形态，不要都是类似的形态…分析现有的竞品形态，然后趋势是什么」[U-L26588]；「它现在的产品设计太 naive，跟他在淘宝找到的竞品不是一个等级的」[U-L10]",
+   "action": "重设计：诊断「五张一张脸」三条病灶（同形态语言换皮/无制冷可读性/底座只是装饰）→ 产出 design/form-directions.md 方向 A–E（形态语言互不重合）；C4 升级为硬约束；Q1 形态方向待用户拍板",
+   "evidence": [
+    "design/form-directions.md §0",
+    "docs/handoff-research-audit-22dbccff.md",
+    "requirements/requirements-brief.md §8 变更日志"
+   ]
+  },
+  {
+   "id": "D-2026-08-28-02",
+   "date": "2026-08-28",
+   "object": "Q1 形态方向（工作假设）",
+   "verdict": "推进中（可逆工作假设，非最终选定）",
+   "quote": "用户：『可以按照这个方式来实现』（对四层方法论的批准；Q1 正式拍板仍开放）",
+   "rationale": "A 在制冷可读性/差异化/架构协同上评分最高（forms.json 六维），专利预检索评级中且规避设计已成文；内部工程核心与外壳解耦，若最终选 B/D 可换壳复用。",
+   "evidence": "design/form-directions.md §7 对比矩阵；research/patent_avoidance.md §3-A",
+   "action": "以 A 为壳推进装配体工程细化（风道贯通/壁厚拔模/联动机构）+ RFQ 设计意图包；用户正式否决即回退"
+  },
+  {
+   "id": "D-2026-08-29-01",
+   "date": "2026-08-29",
+   "object": "Q1 形态方向",
+   "verdict": "选定 A 桌面挂机（用户授权代理决策）",
+   "quote": "用户：『这些我觉得你都可以做 核心是把我们的3d 包括可以看内部结构的3d完整实现好 对目前的这几个候选的都要做』",
+   "rationale": "A 六维评分最高：挂机语言品类零占位（制冷可读性★5）、双风道 ADR-1 收益最大、导风板扫风消解摇头机构 ADR-3 风险、专利预检索评级中且规避设计成文；B/D 同步完成工程装配体作为备份与对比基线，A 若 FTO/手板翻车则 D 保底（form-directions §7）。",
+   "evidence": "data/forms.json 六维评分；research/patent_avoidance.md §3-A",
+   "action": "A 为主推进 RFQ/手板/FTO；B/D 工程装配体补齐后工作台④支持三形态装配体切换"
+  },
+  {
+   "id": "D-2026-08-29-02",
+   "date": "2026-08-29",
+   "object": "Q2 ¥69 风冷走量款去留",
+   "verdict": "砍掉（用户授权代理决策）",
+   "quote": "同上",
+   "rationale": "风冷款与 C1（品类=小空调）冲突：¥69 风冷会把品牌锚回『风扇』心智（¥20–70 红海，N3）；三 SKU 共模省下的模具费抵不过品类话术稀释的代价；聚焦双 SKU（Cool ¥119–129 / Pro ¥159）与竞品制冷带正面对打。",
+   "evidence": "requirements-brief N3/C1；research/taobao_desktop_fans.md §2 A 档红海",
+   "action": "design-spec v3.2 SKU 矩阵修订为双 SKU；BOM/成本模型去掉风冷款"
+  },
+  {
+   "id": "D-2026-08-29-03",
+   "date": "2026-08-29",
+   "object": "Q3 BOM 超标 ≈¥20 出路",
+   "verdict": "组合策略：询价压实为先，达不到则 Cool 定价 ¥129（用户授权代理决策）",
+   "quote": "同上",
+   "rationale": "搜索卡片价普遍有 20–30% 量议空间，电池/注塑/PCB 三大项询价后出厂有望落入 ¥65–72；若仍超，¥129 定价仍压 soip ¥128 且多温度数显差异化，毛利率可保。红线：不通过降 TEC/电池规格压成本（那会杀死 F1/F6）。",
+   "evidence": "architecture/product-architecture.md §8.3；data/bom.json cost_summary",
+   "action": "08-29 10:23 旺旺跟进以 ¥65–72 出厂目标谈判；报价回填 bom.json 后复核 R8"
+  },
+  {
+   "id": "D-2026-08-30-01",
+   "date": "2026-08-30",
+   "object": "Q4 重量预算冲突（新发现，待用户拍板）",
+   "verdict": "开放（已备三条减重路径，DFM 阶段与工厂共审）",
+   "quote": "—（agent 实测发现，非用户决策点产物）",
+   "rationale": "STL 几何实测：塑料件合计 ≈600g（ABS 密度估算），而 RFQ §2 整机目标 ≤450g；加 TEC/散热器/风机/18650×2(≈90g)/PCB 后缺口更大。减重路径：① SkidPad 整面垫→4 脚垫（−85g）② Base 配重腔筋位化（−50g）③ 壁厚 2.0→1.8mm。注意配重本身（铅砂/钢珠）是稳定性需求，与减重存在张力——轻量化 vs 配重稳定性的平衡需用户定调。",
+   "evidence": "rfq/plastic_parts_summary.md §6；cad/stl/validation_report.md",
+   "action": "不阻塞打样（打样件验证装配+热架构，重量非打样判据）；臻源/蓝鲸喜 DFM 阶段共审；用户醒后拍板是否下调 450g 目标或接受减重路径"
+  }
+ ]
 }
