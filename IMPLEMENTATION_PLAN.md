@@ -33,6 +33,7 @@
 - ✅ S8 手板验证计划 `docs/S8_prototype_test_plan.md`（T1–T7：降温/噪音/热排/凝露/密封/扫风寿命/续航）
 - ⏳ 用户电话李伟（蓝鲸喜 199****2258）+ 臻源电话（待索要）约 NDA
 - ⏳ 1688 第二轮跟进（08-30 10:41 自动任务）：臻源开模费/组装费量级、鑫创纪元最后通牒
+- ✅ 08-30 04:30 凌晨只读预检：8 会话身份坐实（szjcdz88=沙井俊诚≠鑫创纪元）；臻源提出「发塑料件 3D 单独报价」→ NDA 前不外发，成两家共同卡点；六家样品询价隔夜零报价（凌晨自动客服值守，正常）→ `research/1688_rfq_notes.md` 08-30 节
 - ⬜ NDA 签署 → 外发受控包 → 报价回填 bom.json 复核 R8/Q3 → 功能样机 → T1–T7 实测 → 正式 FTO（佰腾类，约 1 周，与手板并行）→ DFM 评审 → 开模（3–6 周）
 
 ## Stage 7: 流水线编排层 + 工作台生成器骨架
@@ -42,12 +43,12 @@
 
 ## Stage 8: 工作台重设计（丙方向，五阶段管线）
 **Goal**: 按 harness-frontend-product-design 流程重做工作台前端：Phase 0 合同 → Phase 1 出稿 → 冻结 → Phase 2 规格 → Phase 3 实现 → Phase 4 Owner 验收
-**Status**: In Progress
+**Status**: In Progress（只剩 Phase 4 Owner 验收）
 - ✅ Phase 0 合同 `design/workbench/phase0_contract.md`（含 §9 前端架构：无构建链 ES-module）
 - ✅ Phase 1/1.5 出稿与冻结：丙方向 v2 两稿（mockups/FROZEN.md changelog；甲/乙 DEAD）
 - ✅ Phase 2 规格 `design/workbench/visual-spec-v2.md`（token 终值=NOTES_v2）
-- ⏳ Phase 3 六视图重写（执行中）→ 机械验收 → 切 dist/index.html 正式入口
-- ⬜ Phase 4 Owner 并排验收
+- ✅ Phase 3 六视图重写 + 机械复核（computed 采样/console 零错/数据元素零丢失，`workbench/P3_report.md`），已切 `workbench/dist/index.html` 正式入口（旧 workbench.html 为 legacy）
+- ⬜ Phase 4 Owner 并排验收（待用户醒后）
 
 ## Stage 9: 3D 打印自打样（S8 前置解耦）
 **Goal**: 3D 打印结构件 + 购买功能件，单台 ≈¥400–600/1 周，把 T1–T7 热架构验证从 ODM 谈判解耦

@@ -22,18 +22,19 @@
 
 ## ③ 10:41 ODM 跟进落库
 
-- 状态：⏳ cron `01M15Q1RAQ0VMPT2215JCF7GNG` 到点自动执行
-- 验收物证（待回填）：`research/1688_rfq_notes.md` 08-30 跟进节（臻源开模费量级/鑫创纪元最后通牒/补询家状态）；有报价则 `data/bom.json` 按 ✅ 纪律回填
+- 状态：⏳ cron `01M17DB3ARMMEGHE6RWD3J59SS`（10:41 ODM 第二轮）+ `01M17D84141YTY82PJ08ESBHJR`（11:17 样品报价回填）到点自动执行
+- 已完成前置：04:30 凌晨只读预检（commit `1c5f084`）——8 会话身份坐实（szjcdz88=沙井俊诚，**不是**鑫创纪元）；臻源唯一实质进展：要求「发塑料件 3D 单独报价」→ NDA 成两家（臻源/蓝鲸喜）共同卡点，NDA 前不外发图档；六家样品询价隔夜零报价（凌晨自动客服值守，正常）
+- 验收物证：`research/1688_rfq_notes.md` 08-30 04:30 预检节已落盘；10:41/11:17 跟进节待 cron 到点回填；有报价数字才动 `data/bom.json`（✅/⚠️ 纪律）
 
 ## ④ git 提交推送
 
 - ✅ 第一轮已完成：commit `8a8f7f8`（产品总览/README/想法交付OS/3D打印路线/设计体系）→ 已推 origin/main
-- ✅ 收尾轮①②已推：commit `2a782d0`（工作台 Phase 3）+ 本轮 STL/采购包 commit；③ cron 产物到点后补一轮
+- ✅ 收尾轮①②已推：commit `2a782d0`（工作台 Phase 3）+ `a16eebe`（STL/采购包）；③ 预检轮已推：`1c5f084`（1688 凌晨只读预检落库）；cron 产物到点后再补一轮
 - 验证：`git log --oneline` 与 `gh repo view cyl19970726/puzhi-fan` 同步
 
 ## ⑤ 计划同步 + 本报告
 
-- ⏳ `IMPLEMENTATION_PLAN.md` 收尾同步（Stage 6 勾掉已完成项）
+- ✅ `IMPLEMENTATION_PLAN.md` 已同步（Stage 8 Phase 3 勾掉、Stage 6 补 04:30 预检行，仅剩 Phase 4 Owner 验收与 cron 跟进两个 ⏳/⬜）
 - 本报告：`docs/wakeup_report.md`
 
 ---
