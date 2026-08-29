@@ -39,3 +39,17 @@
 **Goal**: 按 docs/code-architecture.md 搭 pipeline/ + data/ schema + workbench/ 生成器
 **Success Criteria**: `python3 pipeline/run.py build` 跑通；validate 如实标出数据缺口；空数据只渲染「待补」占位；形态对比一屏看全
 **Status**: Complete → `pipeline/`、`data/{bom,forms,decisions}.json`、`workbench/dist/workbench.html`（六 Tab 产品画廊级，④ 三装配体切换+爆炸/透视/标注/BOM 卡）
+
+## Stage 8: 工作台重设计（丙方向，五阶段管线）
+**Goal**: 按 harness-frontend-product-design 流程重做工作台前端：Phase 0 合同 → Phase 1 出稿 → 冻结 → Phase 2 规格 → Phase 3 实现 → Phase 4 Owner 验收
+**Status**: In Progress
+- ✅ Phase 0 合同 `design/workbench/phase0_contract.md`（含 §9 前端架构：无构建链 ES-module）
+- ✅ Phase 1/1.5 出稿与冻结：丙方向 v2 两稿（mockups/FROZEN.md changelog；甲/乙 DEAD）
+- ✅ Phase 2 规格 `design/workbench/visual-spec-v2.md`（token 终值=NOTES_v2）
+- ⏳ Phase 3 六视图重写（执行中）→ 机械验收 → 切 dist/index.html 正式入口
+- ⬜ Phase 4 Owner 并排验收
+
+## Stage 9: 3D 打印自打样（S8 前置解耦）
+**Goal**: 3D 打印结构件 + 购买功能件，单台 ≈¥400–600/1 周，把 T1–T7 热架构验证从 ODM 谈判解耦
+**Success Criteria**: cad/stl/ A 类件 STL 校验全绿 + PRINT_GUIDE + purchase_list（样品询价状态）
+**Status**: In Progress（依据 docs/prototype_3d_print_route.md；STL 导出与采购包执行中）

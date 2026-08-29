@@ -1,0 +1,353 @@
+{
+  "generated_by": "pipeline/validate.py",
+  "summary": {
+    "pass": 14,
+    "warn": 4,
+    "fail": 1
+  },
+  "hard_rules": {
+    "G-数据闸": {
+      "id": "S1-竞品数据完整度",
+      "dataset": "competitors",
+      "rule": "空壳率 <20%（空壳=无任何评价原文）",
+      "level": "pass",
+      "ok": true,
+      "missing": [
+        "空壳率 0.0%（0/13）"
+      ]
+    },
+    "G-验收闸": {
+      "id": "G-验收闸",
+      "dataset": "forms+decisions",
+      "rule": "任何形态标「已验收/已选定」，decisions.json 必须存在对应记录",
+      "level": "pass",
+      "ok": true,
+      "missing": []
+    },
+    "G-诚实参数": {
+      "id": "G-诚实参数(竞品宣称)",
+      "dataset": "competitors",
+      "rule": "性能宣称字段必须带测量条件；竞品宣称视为无测量条件，仅作参考",
+      "level": "warn",
+      "ok": true,
+      "missing": [
+        "soip 半导体制冷+可摇头 桌面风扇: 100/199档无极",
+        "soip 半导体制冷+可摇头 桌面风扇: 24-48h",
+        "kinglucky 摇头循环空调扇: 100档循环冷风",
+        "向物 桌面风扇（空气净化）: 39dB标称",
+        "几素 桌面风扇（Life5）: 22.5h续航(4000mAh)",
+        "几素 桌面风扇（Life5）: 4档"
+      ]
+    }
+  },
+  "checks": [
+    {
+      "id": "C-文件存在",
+      "dataset": "competitors",
+      "rule": "research/competitors.json 存在且可解析",
+      "level": "pass",
+      "ok": true,
+      "missing": []
+    },
+    {
+      "id": "C-link 非空",
+      "dataset": "competitors",
+      "rule": "每款 link 非空",
+      "level": "pass",
+      "ok": true,
+      "missing": []
+    },
+    {
+      "id": "C-评价原文",
+      "dataset": "competitors",
+      "rule": "每款 ≥1 条评价原文(好评或差评)",
+      "level": "pass",
+      "ok": true,
+      "missing": []
+    },
+    {
+      "id": "S1-竞品数据完整度",
+      "dataset": "competitors",
+      "rule": "空壳率 <20%（空壳=无任何评价原文）",
+      "level": "pass",
+      "ok": true,
+      "missing": [
+        "空壳率 0.0%（0/13）"
+      ]
+    },
+    {
+      "id": "G-诚实参数(竞品宣称)",
+      "dataset": "competitors",
+      "rule": "性能宣称字段必须带测量条件；竞品宣称视为无测量条件，仅作参考",
+      "level": "warn",
+      "ok": true,
+      "missing": [
+        "soip 半导体制冷+可摇头 桌面风扇: 100/199档无极",
+        "soip 半导体制冷+可摇头 桌面风扇: 24-48h",
+        "kinglucky 摇头循环空调扇: 100档循环冷风",
+        "向物 桌面风扇（空气净化）: 39dB标称",
+        "几素 桌面风扇（Life5）: 22.5h续航(4000mAh)",
+        "几素 桌面风扇（Life5）: 4档"
+      ]
+    },
+    {
+      "id": "B-文件存在",
+      "dataset": "bom",
+      "rule": "data/bom.json 存在且可解析",
+      "level": "pass",
+      "ok": true,
+      "missing": []
+    },
+    {
+      "id": "B-M1–M8 覆盖",
+      "dataset": "bom",
+      "rule": "M1–M8 模块齐全",
+      "level": "pass",
+      "ok": true,
+      "missing": []
+    },
+    {
+      "id": "B-关键字段",
+      "dataset": "bom",
+      "rule": "模块/候选厂关键字段非空（单价可为空=待询价）",
+      "level": "pass",
+      "ok": true,
+      "missing": []
+    },
+    {
+      "id": "B-候选厂覆盖",
+      "dataset": "bom",
+      "rule": "BOM 模块 100% 有候选厂",
+      "level": "pass",
+      "ok": true,
+      "missing": []
+    },
+    {
+      "id": "S4-供应商核验",
+      "dataset": "bom",
+      "rule": "候选厂全部 ✅ 核验（C3）",
+      "level": "fail",
+      "ok": false,
+      "missing": [
+        "M1 → 整机 ODM 内配（慈溪韩雀电器）——出局（⚠️）",
+        "M4 → 揭阳泓裕电子（⚠️）"
+      ]
+    },
+    {
+      "id": "B-单价完整",
+      "dataset": "bom",
+      "rule": "候选厂单价已填（空=待旺旺询价）",
+      "level": "warn",
+      "ok": true,
+      "missing": [
+        "M1 → 整机 ODM 内配（语蝉鸣(东莞)=蓝鲸喜电子，第一优先）",
+        "M1 → 整机 ODM 内配（东莞臻源电子，第二优先）",
+        "M1 → 整机 ODM 内配（深圳鑫创纪元）",
+        "M1 → 整机 ODM 内配（慈溪韩雀电器）——出局",
+        "M1 → 整机 ODM 内配（深圳向往创展）——出局",
+        "M1 → 整机 ODM 内配（深圳科斯佳智造）——出局",
+        "M1 → 整机 ODM 内配（揭阳新笙代科技）——出局",
+        "M1 → 整机 ODM 内配（揭阳迈科丽电器厂）——出局",
+        "M1 → 摇头同步电机：天菱机电（49TYJ 全转速，13年专业厂）",
+        "M2 → 广东言九电子",
+        "M3 → 深圳众鑫天宇",
+        "M7 → 凯越光（20年厂，温度显示数码管定制，最对口）"
+      ]
+    },
+    {
+      "id": "S5-成本核算",
+      "dataset": "bom",
+      "rule": "出厂成本在目标 ±15% 内；超标有处置方案（Q3 类决策）",
+      "level": "warn",
+      "ok": false,
+      "missing": [
+        "出厂估算 82.0 vs 目标 ¥55–65（B1），≈¥20（风险 R8）。处置已定（D-2026-08-29-03）：以出厂 ¥65–72 目标询价压实电池/注塑/PCB 三大项，达不到则 Cool 定价 ¥129（仍压 soip ¥128 多数显）；红线=不降 TEC/电池规格。待 1688 报价回填后复核"
+      ]
+    },
+    {
+      "id": "F-文件存在",
+      "dataset": "forms",
+      "rule": "data/forms.json 存在且可解析",
+      "level": "pass",
+      "ok": true,
+      "missing": []
+    },
+    {
+      "id": "F-关键字段",
+      "dataset": "forms",
+      "rule": "形态关键字段非空、渲染图路径存在",
+      "level": "pass",
+      "ok": true,
+      "missing": []
+    },
+    {
+      "id": "S2-形态方向数量",
+      "dataset": "forms",
+      "rule": "≥3 个形态语言互不重合的方向",
+      "level": "pass",
+      "ok": true,
+      "missing": []
+    },
+    {
+      "id": "F-GLB 产出",
+      "dataset": "forms",
+      "rule": "每形态 GLB 已产出（cad/*.glb）",
+      "level": "warn",
+      "ok": true,
+      "missing": [
+        "形态 W1 GLB 待产出",
+        "形态 W2 GLB 待产出"
+      ]
+    },
+    {
+      "id": "G-验收闸",
+      "dataset": "forms+decisions",
+      "rule": "任何形态标「已验收/已选定」，decisions.json 必须存在对应记录",
+      "level": "pass",
+      "ok": true,
+      "missing": []
+    },
+    {
+      "id": "D-文件存在",
+      "dataset": "decisions",
+      "rule": "data/decisions.json 存在且可解析",
+      "level": "pass",
+      "ok": true,
+      "missing": []
+    },
+    {
+      "id": "D-关键字段",
+      "dataset": "decisions",
+      "rule": "决策记录 id/日期/对象/verdict/原话/后续动作 非空",
+      "level": "pass",
+      "ok": true,
+      "missing": []
+    }
+  ],
+  "details": {
+    "competitors": {
+      "total": 13,
+      "complete": 13,
+      "no_link": [],
+      "no_reviews": [],
+      "shell_rate": 0.0,
+      "unconditioned_claims": [
+        {
+          "item": "soip 半导体制冷+可摇头 桌面风扇",
+          "claim": "100/199档无极"
+        },
+        {
+          "item": "soip 半导体制冷+可摇头 桌面风扇",
+          "claim": "24-48h"
+        },
+        {
+          "item": "kinglucky 摇头循环空调扇",
+          "claim": "100档循环冷风"
+        },
+        {
+          "item": "向物 桌面风扇（空气净化）",
+          "claim": "39dB标称"
+        },
+        {
+          "item": "几素 桌面风扇（Life5）",
+          "claim": "22.5h续航(4000mAh)"
+        },
+        {
+          "item": "几素 桌面风扇（Life5）",
+          "claim": "4档"
+        }
+      ]
+    },
+    "bom": {
+      "modules": [
+        "M1",
+        "M2",
+        "M3",
+        "M4",
+        "M5",
+        "M6",
+        "M7",
+        "M8"
+      ],
+      "unverified_candidates": [
+        "M1 → 整机 ODM 内配（慈溪韩雀电器）——出局（⚠️）",
+        "M4 → 揭阳泓裕电子（⚠️）"
+      ],
+      "price_missing": [
+        "M1 → 整机 ODM 内配（语蝉鸣(东莞)=蓝鲸喜电子，第一优先）",
+        "M1 → 整机 ODM 内配（东莞臻源电子，第二优先）",
+        "M1 → 整机 ODM 内配（深圳鑫创纪元）",
+        "M1 → 整机 ODM 内配（慈溪韩雀电器）——出局",
+        "M1 → 整机 ODM 内配（深圳向往创展）——出局",
+        "M1 → 整机 ODM 内配（深圳科斯佳智造）——出局",
+        "M1 → 整机 ODM 内配（揭阳新笙代科技）——出局",
+        "M1 → 整机 ODM 内配（揭阳迈科丽电器厂）——出局",
+        "M1 → 摇头同步电机：天菱机电（49TYJ 全转速，13年专业厂）",
+        "M2 → 广东言九电子",
+        "M3 → 深圳众鑫天宇",
+        "M7 → 凯越光（20年厂，温度显示数码管定制，最对口）"
+      ],
+      "cost_summary": {
+        "bom_total": 73.0,
+        "factory_estimate": 82.0,
+        "factory_note": "BOM ≈¥73 + 制造/测试/损耗(≈12%) ≈ ¥82 出厂",
+        "factory_target": "¥55–65（B1）",
+        "gap": "≈¥20（风险 R8）。处置已定（D-2026-08-29-03）：以出厂 ¥65–72 目标询价压实电池/注塑/PCB 三大项，达不到则 Cool 定价 ¥129（仍压 soip ¥128 多数显）；红线=不降 TEC/电池规格。待 1688 报价回填后复核"
+      }
+    },
+    "forms": {
+      "forms": [
+        {
+          "id": "A",
+          "name": "桌面挂机",
+          "status": "已选定",
+          "glb": "cad/form_a.glb",
+          "renders": 5
+        },
+        {
+          "id": "B",
+          "name": "复古收音机",
+          "status": "待验收",
+          "glb": "cad/form_b.glb",
+          "renders": 5
+        },
+        {
+          "id": "D",
+          "name": "塔·认真版",
+          "status": "待验收",
+          "glb": "cad/form_d.glb",
+          "renders": 5
+        },
+        {
+          "id": "W1",
+          "name": "氛围灯融合",
+          "status": "探索",
+          "glb": null,
+          "renders": 0
+        },
+        {
+          "id": "W2",
+          "name": "精工铝 unibody",
+          "status": "探索",
+          "glb": null,
+          "renders": 0
+        }
+      ],
+      "glb_missing": [
+        "W1",
+        "W2"
+      ]
+    },
+    "decisions": {
+      "count": 6,
+      "ids": [
+        "D-2026-08-15-01",
+        "D-2026-08-28-01",
+        "D-2026-08-28-02",
+        "D-2026-08-29-01",
+        "D-2026-08-29-02",
+        "D-2026-08-29-03"
+      ]
+    }
+  }
+}

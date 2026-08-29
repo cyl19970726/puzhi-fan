@@ -1,0 +1,269 @@
+{
+  "updated": "2026-08-29（1688 ODM 补询回填：新笙代/迈科丽出局，臻源电子进入实质流程-甲供模式，与语蝉鸣形成双候选竞争）",
+  "source": "architecture/product-architecture.md §5.1 模块总表 + §8.3 成本预算 + research/1688_factories.md（2026-08-28 核验轮）+ research/1688_rfq_notes.md（2026-08-29 跟进）",
+  "note": "✅=已点开店铺/详情页核验；⚠️=仅搜索页。2026-08-29 跟进：5 家 ODM 旺旺对话均无报价数字（向往创展/科斯佳明确婉拒，韩雀为蒸发式水冷厂能力错位，鑫创纪元已读不回+验厂资料未提供，语蝉鸣邀到厂面谈待 NDA 后报价）。按纪律无一家标「已询价」，unit_price 维持 null。",
+  "currency": "CNY",
+  "modules": [
+    {
+      "id": "M1",
+      "name": "底座模块",
+      "function": "站立稳定(F3)、容纳摇头机构、进线",
+      "interfaces": "机械: 与塔身旋转轴+滑环/绕线(首选限位绕线 ADR-3); 电气: 底座过线",
+      "candidates": [
+        {
+          "name": "整机 ODM 内配（语蝉鸣(东莞)=蓝鲸喜电子，第一优先）",
+          "verification": "✅",
+          "unit_price": null,
+          "moq": "待询（NDA 后发 GLB/STEP 预评估报价）",
+          "contact": "shop308950202c010.1688.com（08-29 旺旺对话：邀到厂+工程面谈；对接人 李伟 199****2258，东莞大岭山上高田南二街1号；待签 NDA）"
+        },
+        {
+          "name": "整机 ODM 内配（东莞臻源电子，第二优先）",
+          "verification": "✅",
+          "unit_price": null,
+          "moq": "待复（11:30 已追问开模费/组装测试费/首单 MOQ/打样周期量级）",
+          "contact": "shop62tp607378896.1688.com（08-29 询价，✅ 已点开店铺；旺旺 zhenyuan0068 人工明确「可以的」，接受关键件甲供模式：我方供 TEC/风机/电池/PCB，臻源只收开模费+组装测试费；已发外观效果图，内部图纸待 NDA；工厂 7 年、迪士尼代工标签待验厂核实）"
+        },
+        {
+          "name": "整机 ODM 内配（深圳鑫创纪元）",
+          "verification": "✅",
+          "unit_price": null,
+          "moq": "待询",
+          "contact": "szhongfa.1688.com（08-29 追问已读仅回「你好」，验厂资料未提供；⚠️ 成立 2025-08-01 vs 19年工厂矛盾未解释，可信度降级）"
+        },
+        {
+          "name": "整机 ODM 内配（慈溪韩雀电器）——出局",
+          "verification": "⚠️",
+          "unit_price": null,
+          "moq": "—",
+          "contact": "18058564676.1688.com（08-29 实质答复：该厂为蒸发式水冷冷风机路线，无 TEC 经验，能力错位出局）"
+        },
+        {
+          "name": "整机 ODM 内配（深圳向往创展）——出局",
+          "verification": "✅",
+          "unit_price": null,
+          "moq": "—",
+          "contact": "shop8k584e719e314.1688.com（08-29 王亮明确婉拒「没办法 做的哈」；0755-13028832350 未拨打）"
+        },
+        {
+          "name": "整机 ODM 内配（深圳科斯佳智造）——出局",
+          "verification": "✅",
+          "unit_price": null,
+          "moq": "—",
+          "contact": "kesijia999.1688.com（08-29 黄先生明确婉拒「做不了」；中文搜不到，需搜品牌词 KESIJAR）"
+        },
+        {
+          "name": "整机 ODM 内配（揭阳新笙代科技）——出局",
+          "verification": "✅",
+          "unit_price": null,
+          "moq": "—",
+          "contact": "shop9528a759br080.1688.com（08-29 询价已读，客服恬恬秒拒「不需要呢」；搜索卡 OEM 标签与实际不接开模单不符）"
+        },
+        {
+          "name": "整机 ODM 内配（揭阳迈科丽电器厂）——出局",
+          "verification": "✅",
+          "unit_price": null,
+          "moq": "—",
+          "contact": "maikeli.1688.com（08-29 询价已读，客服林林婉拒「不好意思，不接哈！」；虽有 100档半导体制冷桌面风扇在售，不接开模定制）"
+        },
+        {
+          "name": "摇头同步电机：天菱机电（49TYJ 全转速，13年专业厂）",
+          "verification": "✅",
+          "unit_price": null,
+          "moq": "待询",
+          "contact": "1688 搜「天菱机电」；⚠️ 在售多为 220V 交流款，电池供电需询低压直流版"
+        }
+      ],
+      "cost_budget": {
+        "amount": 6.0,
+        "basis": "摇头机构 ¥6（限位绕线方案 ADR-3，ODM 内配）；底座结构件含在 M6 注塑"
+      }
+    },
+    {
+      "id": "M2",
+      "name": "能源模块",
+      "function": "18650×2 电池组(2P 3.7V)+支架+保护板(3C/UN38.3)",
+      "interfaces": "电气: 2P 电池组→主板 XT30/JST（防反插+减震棉 IF-5）",
+      "candidates": [
+        {
+          "name": "东莞奕辉科技",
+          "verification": "✅",
+          "unit_price": 16.0,
+          "moq": "待询",
+          "contact": "shop9933394041313.1688.com（一钻，18650 PACK 定制对口）"
+        },
+        {
+          "name": "广东言九电子",
+          "verification": "✅",
+          "unit_price": null,
+          "moq": "待询",
+          "contact": "yjpower.1688.com（三钻；⚠️ 偏聚合物软包，18650 需询）"
+        }
+      ],
+      "cost_budget": {
+        "amount": 16.0,
+        "basis": "奕辉 ✅ ¥16"
+      }
+    },
+    {
+      "id": "M3",
+      "name": "主控模块",
+      "function": "PCB(FOC+充电管理+TEC驱动+数显驱动+MCU 状态机)",
+      "interfaces": "电气: 全部线束汇总",
+      "candidates": [
+        {
+          "name": "永康尊智科技",
+          "verification": "✅",
+          "unit_price": 8.0,
+          "moq": "待询",
+          "contact": "shop289o3zb343938.1688.com（有数显+无刷控制板经验）"
+        },
+        {
+          "name": "深圳众鑫天宇",
+          "verification": "✅",
+          "unit_price": null,
+          "moq": "待询",
+          "contact": "szzxty.1688.com（PCBA+电池保护板；⚠️ 未见 TEC 在售，「PCB+TEC 一体」需重新确认）"
+        }
+      ],
+      "cost_budget": {
+        "amount": 8.0,
+        "basis": "尊智 ✅ ¥8"
+      }
+    },
+    {
+      "id": "M4",
+      "name": "动力模块",
+      "function": "无刷电机+扇叶总成（FOC 100 档无级）",
+      "interfaces": "机械: 法兰固定; 电气: 3相 PWM",
+      "candidates": [
+        {
+          "name": "锐泓动力(深圳)",
+          "verification": "✅",
+          "unit_price": 6.0,
+          "moq": "待询",
+          "contact": "detail.1688.com/offer/1065454211732.html（涡轮叶超高速无刷套件）"
+        },
+        {
+          "name": "揭阳泓裕电子",
+          "verification": "⚠️",
+          "unit_price": 2.0,
+          "moq": "待询",
+          "contact": "detail.1688.com/offer/822302852978.html（16.8mm 微型马达，备选）"
+        }
+      ],
+      "cost_budget": {
+        "amount": 6.0,
+        "basis": "锐泓 ✅ ¥6 套件"
+      }
+    },
+    {
+      "id": "M5",
+      "name": "热模块",
+      "function": "TEC+冷端鳍片+热端散热器+中隔板（双风道物理隔离 ADR-1）",
+      "interfaces": "机械: 风道密封(EVA 密封棉,漏风率<5% IF-2); 热: 热阻 ≤2.5°C/W",
+      "candidates": [
+        {
+          "name": "浙江先导热电（TEC04902 风扇专用）",
+          "verification": "✅",
+          "unit_price": 4.2,
+          "moq": "待询",
+          "contact": "shop4839472514335.1688.com"
+        },
+        {
+          "name": "江苏星河（XH-X183 TEC 专用散热+带风扇位）",
+          "verification": "✅",
+          "unit_price": 12.0,
+          "moq": "待询",
+          "contact": "1688 搜「江苏星河 散热器」（§8）"
+        },
+        {
+          "name": "沙井俊诚（40×40×11 铝型材鳍片，1.8万件）",
+          "verification": "✅",
+          "unit_price": 1.4,
+          "moq": "待询",
+          "contact": "1688 搜「俊诚 铝型材鳍片」（§8）"
+        }
+      ],
+      "cost_budget": {
+        "amount": 10.2,
+        "basis": "TEC ¥4.2(先导 ✅) + 鳍片/散热器+隔板 ¥6（俊诚 ¥1.4 起/星河 ¥12 带风扇位，询价后校准）"
+      }
+    },
+    {
+      "id": "M6",
+      "name": "外壳模块",
+      "function": "前壳(数显窗)/后壳(进排风格栅)/网罩(旋扣 IF-3)/旋钮/腰线",
+      "interfaces": "机械: 旋扣+超声焊+3螺丝; 外观: C2 专利避让",
+      "candidates": [
+        {
+          "name": "东莞东凯塑胶",
+          "verification": "✅",
+          "unit_price": 3.0,
+          "moq": "待询",
+          "contact": "shop930053k009114.1688.com（风扇外壳公模 ¥3；⚠️ 回头率 5%/物流 2.0 偏弱需验厂）"
+        }
+      ],
+      "cost_budget": {
+        "amount": 18.0,
+        "basis": "注塑全套 6 件均 ¥3，量大可压"
+      }
+    },
+    {
+      "id": "M7",
+      "name": "数显窗",
+      "function": "半透 PMMA 窗+数码管（出风温度常显，ADR-5）",
+      "interfaces": "机械: 前壳卡扣 30×14mm+遮光棉(IF-4)",
+      "candidates": [
+        {
+          "name": "凯越光（20年厂，温度显示数码管定制，最对口）",
+          "verification": "✅",
+          "unit_price": null,
+          "moq": "待询",
+          "contact": "1688 搜「凯越光 数码管」（§10）"
+        },
+        {
+          "name": "永康尊智科技（数显模组）",
+          "verification": "✅",
+          "unit_price": 4.0,
+          "moq": "待询",
+          "contact": "shop289o3zb343938.1688.com（模组 ¥3–5）"
+        }
+      ],
+      "cost_budget": {
+        "amount": 4.0,
+        "basis": "尊智 ✅ 模组 ¥3–5 取中"
+      }
+    },
+    {
+      "id": "M8",
+      "name": "包装",
+      "function": "抽屉彩盒+说明书（故障码 LO/HI 进说明书 C6）",
+      "interfaces": "—",
+      "candidates": [
+        {
+          "name": "东莞艺卓包装",
+          "verification": "✅",
+          "unit_price": 2.5,
+          "moq": "待询",
+          "contact": "1688 搜「艺卓包装」（二钻，抽屉盒现货对口）"
+        }
+      ],
+      "cost_budget": {
+        "amount": 2.5,
+        "basis": "艺卓 ✅ ¥1.5–3 取中"
+      }
+    }
+  ],
+  "standard_parts": {
+    "amount": 2.0,
+    "basis": "线材/Type-C/螺丝/密封标准件"
+  },
+  "cost_summary": {
+    "bom_total": 73.0,
+    "factory_estimate": 82.0,
+    "factory_note": "BOM ≈¥73 + 制造/测试/损耗(≈12%) ≈ ¥82 出厂",
+    "factory_target": "¥55–65（B1）",
+    "gap": "≈¥20（风险 R8）。处置已定（D-2026-08-29-03）：以出厂 ¥65–72 目标询价压实电池/注塑/PCB 三大项，达不到则 Cool 定价 ¥129（仍压 soip ¥128 多数显）；红线=不降 TEC/电池规格。待 1688 报价回填后复核"
+  }
+}

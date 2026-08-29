@@ -25,8 +25,8 @@
 需求 → 竞品调研 → 形态/专利/供应链 → 成本核算 → 3D 建模 → 人类验收 → 手板验证 → FTO+开模。
 每个阶段有数据闸：空壳数据进不了呈现层，未核验的宣称带 ⚠️，所有拍板记录在 `data/decisions.json`。
 
-**工程工作台**（本项目控制室）：`cd puzhi-fan && python3 -m http.server 8765`，打开
-`http://localhost:8765/workbench/dist/workbench.html`——六视图：流水线总览 / 竞品分析 / 形态对比 / 3D 拆分+供应链（爆炸·透视·标注·点零件弹 BOM 卡）/ 专利规避 / 需求与决策。
+**工程工作台**（本项目控制室，2026-08-30 已切换为 v2 新前端——ES-module 组件架构+文档排印设计；旧版 `dist/workbench.html` 为 legacy）：`cd puzhi-fan && python3 -m http.server 8765`，打开
+`http://localhost:8765/workbench/dist/index.html`——六视图：流水线总览 / 竞品分析 / 形态对比 / 3D 拆分+供应链（爆炸·透视·标注·点零件弹 BOM 卡）/ 专利规避 / 需求与决策。
 
 ```bash
 python3 pipeline/run.py status     # S0–S9 阶段状态

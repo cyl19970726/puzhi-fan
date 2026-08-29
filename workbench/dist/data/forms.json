@@ -1,0 +1,284 @@
+{
+  "updated": "2026-08-29（AI 外观皮肤 GLB 接入：Meshy 图生3D，还原度 4/5，尺寸按 spec 缩放校验，详见 cad/ai_shell_notes.md）",
+  "source": "design/form-directions.md §2–§7 + research/patent_avoidance.md",
+  "status_enum": [
+    "设计中",
+    "建模中",
+    "待验收",
+    "已选定",
+    "已否决"
+  ],
+  "forms": [
+    {
+      "id": "A",
+      "name": "桌面挂机",
+      "direction": "A",
+      "status": "已选定",
+      "claim": "把壁挂空调挂机的视觉语言缩放到桌面——看到它就像看到一台空调。",
+      "language": "横置圆角方体(W≈220×H≈140×D≈110mm)，正面大出风口+可调导风板，出风温度大数显，侧后独立热排格栅，整块配重滑板座(F3)。",
+      "glb": "cad/form_a.glb",
+      "renders": [
+        "cad/renders_form_a_white/three_quarter.png",
+        "cad/renders_form_a_white/front.png",
+        "cad/renders_form_a_white/side.png",
+        "cad/renders_form_a_white/back.png",
+        "cad/renders_form_a_white/top.png"
+      ],
+      "notes": "首选 ★★★★★。堆叠从轴向改层叠（架构 §9 已预判）；双风道在方体内天然成立（ADR-1 收益最大化）；导风板扫风可替代整机摇头，消解 ADR-3。风险：方体进风效率略低于塔式，需手板验证风量损失（进 R2）。GLB+五视图已产出（cad/build_form_a.py，20 个命名 mesh 映射 M1–M8，agent 看图验收记录见 cad/form_a_notes.md），已选定（D-2026-08-29-01）。专利规避设计（patent_avoidance §3-A）：比例不仿挂机（矮方体+桌面脚架）、单层手动百叶、数显独立视窗、背部整面热排识别面。",
+      "patent_risk": {
+        "level": "中",
+        "note": "已检索（patent_avoidance §4）。挂机外观墙在整机空调侧，桌面侧疑空白但同属洛迦诺 23-04，开模前须与销量前 5 挂机外观逐件调图比对",
+        "provisional": false
+      },
+      "engineering_cost": {
+        "level": "中",
+        "note": "堆叠改层叠+导风板机构（新增 28BYJ-48 步进电机 ¥2–3）"
+      },
+      "scores": {
+        "制冷可读性": {
+          "stars": 5,
+          "note": "导风板+热排格栅+温度数显三重空调符号，品类内零占位"
+        },
+        "差异化": {
+          "stars": 5,
+          "note": "品类零占位（六大原型无一使用挂机语言）"
+        },
+        "专利风险": {
+          "stars": 3,
+          "note": "中（已检索，须调图比对）"
+        },
+        "工程代价": {
+          "stars": 3,
+          "note": "中：堆叠改层叠+导风板机构"
+        },
+        "价位匹配": {
+          "stars": 5,
+          "note": "¥119–159 ✓"
+        },
+        "架构影响": {
+          "stars": 4,
+          "note": "层叠堆叠；ADR-1 收益最大化；可消解 ADR-3"
+        }
+      },
+      "concept_images": [
+        "concepts_v2/A_1.png",
+        "concepts_v2/A_2.png"
+      ],
+      "ai_shell": "cad/ai_shell_a/shell_scaled.glb"
+    },
+    {
+      "id": "B",
+      "name": "复古收音机",
+      "direction": "B",
+      "status": "待验收",
+      "claim": "用 60 年代收音机/音箱的情感语言做「有家电质感的降温设备」。",
+      "language": "圆角方盒(W≈200×H≈150×D≈120mm)，正面整面均匀金属细网罩(81%，出风藏于其后)，顶部单颗大旋钮+小圆数显窗，4 矮圆脚，双 CMF：奶油白+胡桃木 / 墨绿+黄铜。",
+      "glb": "cad/form_b.glb",
+      "glb_alt": "cad/form_b_green.glb",
+      "renders": [
+        "cad/renders_form_b_white/cream/three_quarter.png",
+        "cad/renders_form_b_white/cream/front.png",
+        "cad/renders_form_b_white/cream/top.png",
+        "cad/renders_form_b_white/green/three_quarter.png",
+        "cad/renders_form_b_white/green/front.png"
+      ],
+      "notes": "次选 ★★★★。情感路线差异化，与「降温看得见」是两条腿，详情页需同时讲好两个故事；木质/金属 CMF 拉成本（网罩 +¥3–5）。双 CMF GLB+五视图已产出（cad/build_form_b.py，16 个命名 mesh 映射 M1–M8，验收记录 cad/form_b_notes.md），待人类验收。专利规避逐条落实（notes §2）：整面细网 81% 无偏置喇叭区、无调频刻度、单旋钮非三联、热排出顶部后缘、R16 圆角+菱形编织+ squat 圆脚与猫王/Divoom 拉开。",
+      "patent_risk": {
+        "level": "低–中",
+        "note": "已检索（patent_avoidance §4）。概念自由、风扇品类未命中直接注册，避开猫王式构图即可；正式 FTO 加查洛迦诺 14-01 音箱类",
+        "provisional": false
+      },
+      "engineering_cost": {
+        "level": "低",
+        "note": "内部架构零改动（网罩/旋钮是外观件）"
+      },
+      "scores": {
+        "制冷可读性": {
+          "stars": 3,
+          "note": "靠数显与顶部热排；形态本身喊「质感」不喊「空调」"
+        },
+        "差异化": {
+          "stars": 4,
+          "note": "情感差异化（品类空白；Mave 金属款 ¥148 证明材质溢价成立）"
+        },
+        "专利风险": {
+          "stars": 4,
+          "note": "低–中（已检索）"
+        },
+        "工程代价": {
+          "stars": 5,
+          "note": "低：架构零改动"
+        },
+        "价位匹配": {
+          "stars": 4,
+          "note": "¥119–159 ✓（CMF 成本需控制）"
+        },
+        "架构影响": {
+          "stars": 5,
+          "note": "内部架构零改动"
+        }
+      },
+      "concept_images": [
+        "concepts_v2/B_cream.png",
+        "concepts_v2/B_green.png"
+      ],
+      "ai_shell": "cad/ai_shell_b/shell_scaled.glb"
+    },
+    {
+      "id": "D",
+      "name": "塔·认真版",
+      "direction": "D",
+      "status": "待验收",
+      "claim": "跟随品类验证过的塔形，但把竞品偷懒的三件事做穿：底座、数显、热排。",
+      "language": "立式塔(Ø90×230mm) squircle 变截面 loft 一体轮廓：Ø110 配重盘+整圈硅胶底圈(F3 做成品类标杆)；横向百叶×10 网罩（规避公版放射纹样）；出风温度大数显放顶部 35° 斜面（坐姿俯视可读，形态级第五面）；背部竖向 pill 热排立柱造型化。",
+      "glb": "cad/form_d.glb",
+      "renders": [
+        "cad/renders_form_d_white/three_quarter.png",
+        "cad/renders_form_d_white/front.png",
+        "cad/renders_form_d_white/side.png",
+        "cad/renders_form_d_white/back.png",
+        "cad/renders_form_d_white/top.png"
+      ],
+      "notes": "保底 ★★★。若 A/B 的 FTO 或手板翻车，D 保证项目不停摆。GLB+五视图已产出（cad/build_form_d.py，15 个命名 mesh 映射 M1–M8，验收记录 cad/form_d_notes.md），待人类验收。专利规避五条逐条落实（notes §2 附图证据）：squircle n=4 非正圆/百叶非放射辐条/顶部斜面数显/loft 一体轮廓非球头圆盘/背部 pill 热排造型化。",
+      "patent_risk": {
+        "level": "中–高",
+        "note": "已检索（patent_avoidance §4）。品类最拥挤、2026 新授权持续增加，但每件保护范围窄；squircle 截面+百叶网罩纹样+数显位置差异化可绕行，开模前必须代理所比对报告",
+        "provisional": false
+      },
+      "engineering_cost": {
+        "level": "零",
+        "note": "架构原生形态，直接进 Stage 6"
+      },
+      "scores": {
+        "制冷可读性": {
+          "stars": 3,
+          "note": "靠数显+热排；塔身词汇仍是风扇词汇"
+        },
+        "差异化": {
+          "stars": 2,
+          "note": "低：仅细节差异"
+        },
+        "专利风险": {
+          "stars": 2,
+          "note": "中–高（已检索，拥挤但可绕行）"
+        },
+        "工程代价": {
+          "stars": 5,
+          "note": "零：架构原生形态"
+        },
+        "价位匹配": {
+          "stars": 3,
+          "note": "¥99–129"
+        },
+        "架构影响": {
+          "stars": 5,
+          "note": "零改动"
+        }
+      },
+      "concept_images": [
+        "concepts_v2/D_1.png",
+        "concepts_v2/D_2.png"
+      ],
+      "ai_shell": "cad/ai_shell_d/shell_scaled.glb"
+    },
+    {
+      "id": "W1",
+      "name": "氛围灯融合",
+      "direction": "W1",
+      "status": "探索",
+      "claim": "让降温设备读起来像一盏高级氛围灯——情绪差异化路线。",
+      "language": "磨砂玻璃灯体+冷蓝光环指示制冷状态+陶瓷底座，暖夜场景。",
+      "glb": null,
+      "renders": [],
+      "concept_images": [
+        "concepts_v2/W1.png"
+      ],
+      "notes": "野卡探索。工程未评估（光路+风道共存待验证）；若用户被此方向打动，需补架构评估。",
+      "patent_risk": {
+        "level": "未评估",
+        "note": "探索向，未进 FTO 预检索范围",
+        "provisional": true
+      },
+      "engineering_cost": {
+        "level": "未知",
+        "note": "未评估"
+      },
+      "scores": {
+        "制冷可读性": {
+          "stars": 2,
+          "note": "光环暗示制冷但不直接"
+        },
+        "差异化": {
+          "stars": 5,
+          "note": "品类零占位"
+        },
+        "专利风险": {
+          "stars": 3,
+          "note": "未评估"
+        },
+        "工程代价": {
+          "stars": 2,
+          "note": "未知，光+风道共存待验证"
+        },
+        "价位匹配": {
+          "stars": 3,
+          "note": "夜灯场景支撑溢价"
+        },
+        "架构影响": {
+          "stars": 2,
+          "note": "需新增光学子系统"
+        }
+      }
+    },
+    {
+      "id": "W2",
+      "name": "精工铝 unibody",
+      "direction": "W2",
+      "status": "探索",
+      "claim": "一根阳极氧化铝 unibody 横柱——Teenage Engineering 式精工路线。",
+      "language": "铝挤横柱+微孔出风带+橙色点缀环/旋钮+单色数显。",
+      "glb": null,
+      "renders": [],
+      "concept_images": [
+        "concepts_v2/W2.png"
+      ],
+      "notes": "野卡探索。铝挤 unibody 工艺成熟（Mave 金属款 ¥148 已验证材质溢价），内部堆叠从轴向改横向层叠，工程可行性中等。",
+      "patent_risk": {
+        "level": "未评估",
+        "note": "探索向，未进 FTO 预检索范围",
+        "provisional": true
+      },
+      "engineering_cost": {
+        "level": "中",
+        "note": "铝挤+CNC 外壳成本高于注塑，需 BOM 重估"
+      },
+      "scores": {
+        "制冷可读性": {
+          "stars": 3,
+          "note": "微孔带+数显，空调感弱于 A"
+        },
+        "差异化": {
+          "stars": 5,
+          "note": "品类零占位（金属 unibody）"
+        },
+        "专利风险": {
+          "stars": 3,
+          "note": "未评估"
+        },
+        "工程代价": {
+          "stars": 3,
+          "note": "中：金属外壳成本"
+        },
+        "价位匹配": {
+          "stars": 4,
+          "note": "金属质感撑 ¥149–179"
+        },
+        "架构影响": {
+          "stars": 3,
+          "note": "横向层叠堆叠"
+        }
+      }
+    }
+  ],
+  "pending_decision": "Q1 已定 A（D-2026-08-29-01）；Q2 砍风冷款（D-2026-08-29-02）；Q3 询价+¥129 组合（D-2026-08-29-03）。B/D 装配体保留为备份基线。"
+}

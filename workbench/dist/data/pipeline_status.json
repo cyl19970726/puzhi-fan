@@ -1,0 +1,207 @@
+{
+  "generated_at": "2026-08-30 02:13:13",
+  "generated_by": "pipeline/status.py",
+  "stages": [
+    {
+      "id": "S0",
+      "name": "需求基线",
+      "status": "done",
+      "status_label": "✅ 完成",
+      "artifacts": [
+        {
+          "path": "requirements/requirements-brief.md",
+          "exists": true,
+          "mtime": "2026-08-28 16:08"
+        }
+      ],
+      "gate": "每条需求有证据溯源；硬约束与待决策分离",
+      "gate_result": null,
+      "note": ""
+    },
+    {
+      "id": "S1",
+      "name": "竞品调研",
+      "status": "doing",
+      "status_label": "🟡 进行中/部分完成",
+      "artifacts": [
+        {
+          "path": "research/competitors.json",
+          "exists": true,
+          "mtime": "2026-08-28 16:57"
+        },
+        {
+          "path": "research/taobao_desktop_fans.md",
+          "exists": true,
+          "mtime": "2026-08-15 11:40"
+        },
+        {
+          "path": "research/taobao_competitor_deepdive.md",
+          "exists": true,
+          "mtime": "2026-08-15 12:46"
+        }
+      ],
+      "gate": "每款 ≥1 条评价原文 + link 非空；空壳率 <20%",
+      "gate_result": "pass",
+      "note": "数据存在但闸未过：空壳率 0%（0/13 无评价原文），0 款缺 link"
+    },
+    {
+      "id": "S2",
+      "name": "形态设计",
+      "status": "done",
+      "status_label": "✅ 完成",
+      "artifacts": [
+        {
+          "path": "design/form-directions.md",
+          "exists": true,
+          "mtime": "2026-08-28 16:29"
+        },
+        {
+          "path": "data/forms.json",
+          "exists": true,
+          "mtime": "2026-08-29 14:45"
+        }
+      ],
+      "gate": "≥3 个形态语言互不重合的方向",
+      "gate_result": "pass",
+      "note": "方向稿 A–E 已产出；A/B/D 已登记 forms.json（Q1 待用户拍板选定）"
+    },
+    {
+      "id": "S3",
+      "name": "专利查询",
+      "status": "doing",
+      "status_label": "🟡 进行中/部分完成",
+      "artifacts": [
+        {
+          "path": "research/patent_avoidance.md",
+          "exists": true,
+          "mtime": "2026-08-28 16:27"
+        }
+      ],
+      "gate": "每条专利有 URL；每方向有逐元素规避说明",
+      "gate_result": null,
+      "note": "patent_avoidance.md 检索中（初判），每条专利 URL 与逐方向规避说明回填中"
+    },
+    {
+      "id": "S4",
+      "name": "供应商询价",
+      "status": "doing",
+      "status_label": "🟡 进行中/部分完成",
+      "artifacts": [
+        {
+          "path": "research/1688_factories.md",
+          "exists": true,
+          "mtime": "2026-08-28 16:41"
+        }
+      ],
+      "gate": "BOM 模块 100% 有候选厂且 ✅；整机 ODM ≥3 家有旺旺记录",
+      "gate_result": "fail",
+      "note": "候选厂已建账，但 2 个候选未达 ✅（C3 闸未过）；整机 ODM 旺旺询价未完成"
+    },
+    {
+      "id": "S5",
+      "name": "BOM 核算",
+      "status": "doing",
+      "status_label": "🟡 进行中/部分完成",
+      "artifacts": [
+        {
+          "path": "data/bom.json",
+          "exists": true,
+          "mtime": "2026-08-30 00:24"
+        }
+      ],
+      "gate": "每 SKU 出厂成本±15% 内；超标有处置方案（Q3 类决策）",
+      "gate_result": "warn",
+      "note": "BOM 已核算（≈¥73/出厂≈¥82），但 ≈¥20（风险 R8）。处置已定（D-2026-08-29-03）：以出厂 ¥65–72 目标询价压实电池/注塑/PCB 三大项，达不到则 Cool 定价 ¥129（仍压 soip ¥128 多数显）；红线=不降 TEC/电池规格。待 1688 报价回填后复核 → Q3"
+    },
+    {
+      "id": "S6",
+      "name": "3D 建模",
+      "status": "doing",
+      "status_label": "🟡 进行中/部分完成",
+      "artifacts": [
+        {
+          "path": "cad/*.glb",
+          "exists": true,
+          "mtime": "2026-08-30 02:10"
+        }
+      ],
+      "gate": "agent 亲自看图验收；mesh 命名映射 M1–M8",
+      "gate_result": null,
+      "note": "形态 A/B/D GLB+五视图已产出（待人类验收）；形态 W1/W2 GLB 待产出"
+    },
+    {
+      "id": "S7",
+      "name": "人类验收",
+      "status": "blocked",
+      "status_label": "🔴 阻塞",
+      "artifacts": [
+        {
+          "path": "data/decisions.json",
+          "exists": true,
+          "mtime": "2026-08-29 01:32"
+        }
+      ],
+      "gate": "每个「已验收/已选定」状态必须有 decision 记录（口头验收不算）",
+      "gate_result": "pass",
+      "note": "Q1/Q2/Q3 待用户拍板（阻塞 S6 落地/选型）"
+    },
+    {
+      "id": "S8",
+      "name": "手板验证",
+      "status": "todo",
+      "status_label": "⬜ 未开始",
+      "artifacts": [
+        {
+          "path": "reports/手板实测报告.md",
+          "exists": false,
+          "mtime": null
+        }
+      ],
+      "gate": "R2/R3/R5/R6 全过（降温/噪音/凝露/温升）",
+      "gate_result": null,
+      "note": "前置阶段未完成"
+    },
+    {
+      "id": "S9",
+      "name": "正式 FTO+开模",
+      "status": "todo",
+      "status_label": "⬜ 未开始",
+      "artifacts": [
+        {
+          "path": "reports/fto_report.md",
+          "exists": false,
+          "mtime": null
+        }
+      ],
+      "gate": "外部机构比对无近似",
+      "gate_result": null,
+      "note": "前置阶段未完成"
+    }
+  ],
+  "blockers": [
+    {
+      "id": "Q1",
+      "decision": "形态方向",
+      "options": "`design/form-directions.md` 方向 A/B/C/D/E",
+      "blocks": "Stage 6 全部落地工作"
+    },
+    {
+      "id": "Q2",
+      "decision": "风冷走量款（¥69 S1）是否保留",
+      "options": "保留做设计溢价 / 砍掉聚焦制冷",
+      "blocks": "SKU 规划、开模数量"
+    },
+    {
+      "id": "Q3",
+      "decision": "BOM 超标（B1）出路",
+      "options": "询价后接受 ¥129 定价 / 降配（如 18650×2→×1+限制制冷续航）/ 压注塑与电池成本",
+      "blocks": "定价页、供应链谈判底线"
+    }
+  ],
+  "blockers_source": "requirements/requirements-brief.md §7",
+  "validation_summary": {
+    "pass": 14,
+    "warn": 4,
+    "fail": 1
+  }
+}

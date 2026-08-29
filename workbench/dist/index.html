@@ -1,0 +1,31 @@
+<!doctype>
+<html lang="zh-CN" data-data-base="./data/">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1440">
+<title>LiteCool S1 Workbench</title>
+<link rel="stylesheet" href="./src/styles/tokens.css">
+<link rel="stylesheet" href="./src/styles/base.css">
+<link rel="stylesheet" href="./src/styles/components.css">
+<link rel="stylesheet" href="./src/styles/views.css">
+<script>
+  // 验收钩子：ego-browser 读 window.__errs 判 console 无错（spec §6-6）
+  window.__errs = [];
+  addEventListener('error', e => window.__errs.push(String(e.message)));
+  addEventListener('unhandledrejection', e => window.__errs.push('rejection: ' + String(e.reason)));
+</script>
+<script type="importmap">
+{ "imports": {
+  "three": "./vendor/three/build/three.module.js",
+  "three/addons/": "./vendor/three/examples/jsm/"
+} }
+</script>
+</head>
+<body>
+<div id="app"></div>
+<script type="module">
+  import { startApp } from './src/main.js';
+  startApp(document.getElementById('app'));
+</script>
+</body>
+</html>
