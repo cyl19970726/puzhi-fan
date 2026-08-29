@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1440">
+<title>LiteCool S1 Workbench — 形态决策 · 丙 v2 文档排印</title>
+<style>
+  /* ── 丙 v2 共享 design tokens（两稿一致，Phase 2 测量底稿）── */
+  :root{
+    --bg:#F7F7F5; --paper:#FFFFFF; --side:#F1F1EF; --hairline:#E3E2DE;
+    --ink:#37352F; --ink-2:#73716C; --ink-3:#A3A29C;
+    --accent:#2F6B4F;
+    --ok:#2F6B4F; --warn:#9A7B2D; --risk:#B4544A;
+    --ok-tint:#EEF4F0; --ok-line:#CBDDD2;
+    --warn-tint:#F7F1E3; --warn-line:#E3D4B2;
+    --risk-tint:#F8EEEC; --risk-line:#E7C8C3;
+    --star-off:#D8D6D0;
+    --sans:-apple-system,"SF Pro Text","Inter","Helvetica Neue","PingFang SC",sans-serif;
+    --serif:"New York",Georgia,"Songti SC",serif;
+    --mono:ui-monospace,"SF Mono",Menlo,monospace;
+    --fs-h1:28px; --fs-sec:20px; --fs-card:15px; --fs-body:13px; --fs-meta:11px;
+    --sp-1:8px; --sp-2:16px; --sp-3:20px; --sp-4:24px; --sp-5:48px;
+    --r-card:6px; --r-ctl:4px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--ink);font:var(--fs-body)/1.6 var(--sans);-webkit-font-smoothing:antialiased}
+  .mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+
+  /* ── 顶栏 ── */
+  .topbar{position:sticky;top:0;height:48px;background:var(--paper);border-bottom:1px solid var(--hairline);
+    display:flex;align-items:center;padding:0 var(--sp-3);gap:var(--sp-2);z-index:10}
+  .brand{font-weight:600;font-size:var(--fs-body);white-space:nowrap}
+  .brand .ts{font-size:var(--fs-meta);font-family:var(--mono);color:var(--ink-3);font-weight:400;margin-left:var(--sp-1)}
+  .crumb{flex:1;text-align:center;font-size:var(--fs-meta);color:var(--ink-2)}
+  .crumb b{color:var(--ink);font-weight:600}
+  .legend{display:flex;gap:var(--sp-2);font-size:var(--fs-meta);color:var(--ink-2);white-space:nowrap}
+  .legend i{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:5px;vertical-align:1px}
+  .dot-ok{background:var(--ok)}.dot-warn{background:var(--warn)}.dot-risk{background:var(--risk)}
+
+  .shell{display:flex;max-width:1440px;margin:0 auto}
+
+  /* ── 左侧栏导航（与总览稿一致）── */
+  .sidebar{width:232px;flex:none;background:var(--side);border-right:1px solid var(--hairline);
+    min-height:calc(100vh - 48px);padding:var(--sp-3) var(--sp-2)}
+  .side-label{font-size:var(--fs-meta);font-family:var(--mono);letter-spacing:.08em;color:var(--ink-3);
+    padding:0 var(--sp-1) var(--sp-1)}
+  .snav{display:flex;flex-direction:column;gap:2px}
+  .snav a{display:flex;align-items:center;gap:var(--sp-1);padding:var(--sp-1);border-radius:var(--r-card);
+    font-size:var(--fs-body);color:var(--ink-2);text-decoration:none}
+  .snav a .no{font-size:var(--fs-meta);font-family:var(--mono);color:var(--ink-3);width:16px}
+  .snav a .lbl{flex:1}
+  .snav a.on{background:#E8E7E3;color:var(--ink);font-weight:600}
+  .snav a.on .no{color:var(--accent)}
+  .snav .dot{width:7px;height:7px;border-radius:50%;flex:none}
+  .snav .dot.ok{background:var(--ok)}.snav .dot.warn{background:var(--warn)}
+  .snav .dot.risk{background:var(--risk)}.snav .dot.off{background:var(--star-off)}
+  .side-meta{margin-top:var(--sp-4);padding:var(--sp-2) var(--sp-1) 0;font-size:var(--fs-meta);
+    font-family:var(--mono);color:var(--ink-3);line-height:1.8;border-top:1px solid var(--hairline)}
+
+  /* ── 正文 ── */
+  .doc{flex:1;min-width:0;padding:var(--sp-4) 40px var(--sp-4)}
+  .doc h1{font:700 var(--fs-h1)/1.45 var(--serif);letter-spacing:.01em;margin-bottom:var(--sp-1)}
+  .lede{font-size:var(--fs-body);color:var(--ink-2);max-width:880px;margin-bottom:var(--sp-2)}
+  .lede b{font-weight:600}
+
+  /* ── banner：一行结论 ── */
+  .banner{display:flex;align-items:center;gap:var(--sp-1);padding:var(--sp-1) var(--sp-2);margin-bottom:var(--sp-4);
+    background:var(--ok-tint);border:1px solid var(--ok-line);border-left:3px solid var(--accent);
+    border-radius:var(--r-ctl);font-size:var(--fs-body)}
+  .banner .tag{font-weight:600;color:var(--ok)}
+  .banner a{color:var(--accent);text-decoration:none;margin-left:auto;white-space:nowrap}
+
+  /* ── 徽章 ── */
+  .badge{font-size:var(--fs-meta);padding:2px var(--sp-1);border-radius:var(--r-ctl);border:1px solid;white-space:nowrap}
+  .b-ok{color:var(--ok);border-color:var(--ok-line);background:var(--ok-tint)}
+  .b-warn{color:var(--warn);border-color:var(--warn-line);background:var(--warn-tint)}
+  .b-risk{color:var(--risk);border-color:var(--risk-line);background:var(--risk-tint)}
+
+  /* ── A/B/D 三卡一屏 ── */
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--sp-4);margin-bottom:var(--sp-4)}
+  .card{background:var(--paper);border:1px solid var(--hairline);border-radius:var(--r-card);overflow:hidden}
+  .card.sel{border-color:var(--ok-line);border-top:3px solid var(--accent)}
+  .hero{position:relative;background:var(--side);border-bottom:1px solid var(--hairline)}
+  .hero img{display:block;width:100%;height:172px;object-fit:cover}
+  .hero img.tall{object-fit:contain;padding:var(--sp-1) 0}
+  .hero .badge{position:absolute;top:var(--sp-1)}
+  .hero .bl{left:var(--sp-1)}
+  .hero .br{right:var(--sp-1)}
+
+  /* 媒体分层：segmented 唯一切换控件（四层）*/
+  .media{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid var(--hairline)}
+  .media button{border:0;background:var(--paper);font-size:var(--fs-meta);color:var(--ink-2);
+    padding:6px 0;cursor:default;border-right:1px solid var(--hairline)}
+  .media button:last-child{border-right:0}
+  .media button.on{background:var(--side);color:var(--ink);font-weight:600}
+
+  .cbody{padding:var(--sp-2) var(--sp-3) var(--sp-3)}
+  .chead{display:flex;align-items:baseline;gap:var(--sp-1);margin-bottom:2px}
+  .chead h2{font:600 var(--fs-card)/1.45 var(--sans)}
+  .chead .fid{font-size:var(--fs-meta);font-family:var(--mono);color:var(--ink-3)}
+  .chead .avg{margin-left:auto;font-size:var(--fs-card);font-weight:600;font-family:var(--mono);
+    font-variant-numeric:tabular-nums}
+  .chead .avg small{font-size:var(--fs-meta);font-weight:400;color:var(--ink-3)}
+  .claim{font-size:var(--fs-body);color:var(--ink-2);margin-bottom:var(--sp-1)}
+
+  .spec{border-top:1px solid var(--hairline);padding:var(--sp-1) 0;margin-bottom:var(--sp-1)}
+  .spec .row{display:flex;gap:var(--sp-1);padding:3px 0;font-size:var(--fs-body)}
+  .spec .k{flex:none;width:34px;font-size:var(--fs-meta);color:var(--ink-3);padding-top:2px}
+  .spec .v{flex:1;min-width:0}
+
+  .scores{border-top:1px solid var(--hairline);padding-top:var(--sp-1)}
+  .scores .srow{display:flex;align-items:baseline;padding:1px 0}
+  .scores .slabel{flex:none;width:40px;font-size:var(--fs-meta);color:var(--ink-2)}
+  .scores .st{margin-left:auto;font-size:var(--fs-body);color:var(--accent);letter-spacing:2px;white-space:nowrap}
+  .scores .st .off{color:var(--star-off)}
+  .src{margin-top:var(--sp-1);font-size:var(--fs-meta);font-family:var(--mono);color:var(--ink-3)}
+
+  /* ── 探索折叠 ── */
+  details{border:1px solid var(--hairline);border-radius:var(--r-card);background:var(--paper)}
+  summary{cursor:pointer;list-style:none;padding:var(--sp-1) var(--sp-3);display:flex;align-items:center;gap:var(--sp-2);
+    font-size:var(--fs-body);font-weight:600}
+  summary::-webkit-details-marker{display:none}
+  summary .ph{font-size:var(--fs-meta);font-family:var(--mono);font-weight:400;color:var(--warn)}
+  summary .arrow{margin-left:auto;color:var(--ink-3);font-size:var(--fs-meta)}
+  .explore-body{border-top:1px solid var(--hairline);padding:var(--sp-2) var(--sp-3);
+    display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-4)}
+  .wcard{display:flex;gap:var(--sp-2)}
+  .wcard img{flex:none;width:96px;height:72px;object-fit:cover;border-radius:var(--r-ctl);border:1px solid var(--hairline)}
+  .wcard .wbody{min-width:0}
+  .wcard .whead{display:flex;align-items:baseline;gap:var(--sp-1);margin-bottom:2px}
+  .wcard .whead b{font-size:var(--fs-body)}
+  .wcard p{font-size:var(--fs-meta);color:var(--ink-2);line-height:1.6}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">LiteCool S1 Workbench<span class="ts">data 2026-08-29 18:06</span></div>
+  <div class="crumb">工作台 / <b>形态决策</b></div>
+  <div class="legend"><span><i class="dot-ok"></i>已核验</span><span><i class="dot-warn"></i>待补</span><span><i class="dot-risk"></i>风险</span></div>
+</header>
+
+<div class="shell">
+  <aside class="sidebar">
+    <div class="side-label">章节</div>
+    <nav class="snav">
+      <a href="#"><span class="no">①</span><span class="lbl">总览</span></a>
+      <a href="#"><span class="no">②</span><span class="lbl">市场证据</span><span class="dot ok"></span></a>
+      <a href="#" class="on"><span class="no">③</span><span class="lbl">形态决策</span><span class="dot ok"></span></a>
+      <a href="#"><span class="no">④</span><span class="lbl">工程实现</span><span class="dot risk"></span></a>
+      <a href="#"><span class="no">⑤</span><span class="lbl">合规</span><span class="dot warn"></span></a>
+      <a href="#"><span class="no">⑥</span><span class="lbl">决策档案</span><span class="dot ok"></span></a>
+    </nav>
+    <div class="side-meta">数据源 data/forms.json<br>只读工作台 · 桌面 1440px+</div>
+  </aside>
+
+  <main class="doc">
+    <h1>形态决策</h1>
+    <p class="lede">本章回答：三个候选形态选哪个、为什么。A / B / D 同屏对比，W1 / W2 收在探索折叠区。</p>
+
+    <div class="banner">
+      <span class="tag">已选定</span>
+      <span>Q1 形态方向已定 <b>A 桌面挂机</b> — D-2026-08-29-01 · B / D 装配体保留为备份基线</span>
+      <a href="#">决策记录 →</a>
+    </div>
+
+    <div class="cards">
+      <!-- 形态 A -->
+      <section class="card sel">
+        <div class="hero">
+          <img src="../../../../concepts_v2/A_1.png" alt="形态 A 桌面挂机 概念图">
+          <span class="badge b-ok bl">已选定</span>
+          <span class="badge b-warn br">专利 中</span>
+        </div>
+        <div class="media"><button class="on">概念图</button><button>渲染</button><button>五视图</button><button>3D</button></div>
+        <div class="cbody">
+          <div class="chead"><h2>A · 桌面挂机</h2><span class="fid">首选</span>
+            <span class="avg">4.2<small> /5 均分</small></span></div>
+          <p class="claim">把壁挂空调挂机的视觉语言缩放到桌面——看到它就像看到一台空调。</p>
+          <div class="spec">
+            <div class="row"><span class="k">尺寸</span><span class="v">220 × 140 × 110 mm 横置圆角方体</span></div>
+            <div class="row"><span class="k">特征</span><span class="v">大出风口+可调导风板 · 温度大数显 · 背部热排</span></div>
+            <div class="row"><span class="k">架构</span><span class="v">层叠堆叠 · 导风板消解 ADR-3</span></div>
+          </div>
+          <div class="scores">
+            <div class="srow" title="导风板+热排格栅+温度数显三重空调符号，品类内零占位"><span class="slabel">可读</span><span class="st">★★★★★</span></div>
+            <div class="srow" title="品类零占位（六大原型无一使用挂机语言）"><span class="slabel">差异</span><span class="st">★★★★★</span></div>
+            <div class="srow" title="中（已检索，开模前须与销量前 5 挂机外观逐件调图比对）"><span class="slabel">专利</span><span class="st">★★★<span class="off">★★</span></span></div>
+            <div class="srow" title="中：堆叠改层叠+导风板机构（新增 28BYJ-48 步进电机 ¥2–3）"><span class="slabel">代价</span><span class="st">★★★<span class="off">★★</span></span></div>
+            <div class="srow" title="¥119–159 ✓"><span class="slabel">价位</span><span class="st">★★★★★</span></div>
+            <div class="srow" title="层叠堆叠；ADR-1 收益最大化；可消解 ADR-3"><span class="slabel">架构</span><span class="st">★★★★<span class="off">★</span></span></div>
+          </div>
+          <div class="src">cad/form_a.glb · 五视图已产出 · D-2026-08-29-01</div>
+        </div>
+      </section>
+
+      <!-- 形态 B -->
+      <section class="card">
+        <div class="hero">
+          <img src="../../../../concepts_v2/B_cream.png" alt="形态 B 复古收音机 概念图">
+          <span class="badge b-warn bl">待验收</span>
+          <span class="badge b-ok br">专利 低–中</span>
+        </div>
+        <div class="media"><button class="on">概念图</button><button>渲染</button><button>五视图</button><button>3D</button></div>
+        <div class="cbody">
+          <div class="chead"><h2>B · 复古收音机</h2><span class="fid">次选</span>
+            <span class="avg">4.2<small> /5 均分</small></span></div>
+          <p class="claim">用 60 年代收音机的情感语言，做有家电质感的降温设备。</p>
+          <div class="spec">
+            <div class="row"><span class="k">尺寸</span><span class="v">200 × 150 × 120 mm 圆角方盒</span></div>
+            <div class="row"><span class="k">特征</span><span class="v">整面金属细网罩 81% · 顶部单旋钮 · 双 CMF</span></div>
+            <div class="row"><span class="k">架构</span><span class="v">内部零改动 · 网罩/旋钮为外观件</span></div>
+          </div>
+          <div class="scores">
+            <div class="srow" title="靠数显与顶部热排；形态本身喊「质感」不喊「空调」"><span class="slabel">可读</span><span class="st">★★★<span class="off">★★</span></span></div>
+            <div class="srow" title="情感差异化（品类空白；Mave 金属款 ¥148 证明材质溢价成立）"><span class="slabel">差异</span><span class="st">★★★★<span class="off">★</span></span></div>
+            <div class="srow" title="低–中（已检索；正式 FTO 加查洛迦诺 14-01 音箱类）"><span class="slabel">专利</span><span class="st">★★★★<span class="off">★</span></span></div>
+            <div class="srow" title="低：架构零改动"><span class="slabel">代价</span><span class="st">★★★★★</span></div>
+            <div class="srow" title="¥119–159 ✓（CMF 成本需控制）"><span class="slabel">价位</span><span class="st">★★★★<span class="off">★</span></span></div>
+            <div class="srow" title="内部架构零改动"><span class="slabel">架构</span><span class="st">★★★★★</span></div>
+          </div>
+          <div class="src">cad/form_b.glb · 双 CMF 已产出 · 待人类验收</div>
+        </div>
+      </section>
+
+      <!-- 形态 D -->
+      <section class="card">
+        <div class="hero">
+          <img src="../../../../concepts_v2/D_1.png" alt="形态 D 塔 概念图" class="tall">
+          <span class="badge b-warn bl">待验收</span>
+          <span class="badge b-risk br">专利 中–高</span>
+        </div>
+        <div class="media"><button class="on">概念图</button><button>渲染</button><button>五视图</button><button>3D</button></div>
+        <div class="cbody">
+          <div class="chead"><h2>D · 塔 · 认真版</h2><span class="fid">保底</span>
+            <span class="avg">3.3<small> /5 均分</small></span></div>
+          <p class="claim">跟随品类验证过的塔形，把底座、数显、热排三件事做穿。</p>
+          <div class="spec">
+            <div class="row"><span class="k">尺寸</span><span class="v">Ø90 × 230 mm 立式塔 squircle</span></div>
+            <div class="row"><span class="k">特征</span><span class="v">横向百叶 ×10 · 顶部 35° 数显斜面 · pill 热排</span></div>
+            <div class="row"><span class="k">架构</span><span class="v">架构原生形态 · 工程代价零</span></div>
+          </div>
+          <div class="scores">
+            <div class="srow" title="靠数显+热排；塔身词汇仍是风扇词汇"><span class="slabel">可读</span><span class="st">★★★<span class="off">★★</span></span></div>
+            <div class="srow" title="低：仅细节差异"><span class="slabel">差异</span><span class="st">★★<span class="off">★★★</span></span></div>
+            <div class="srow" title="中–高（已检索，拥挤但可绕行；开模前必须代理所比对报告）"><span class="slabel">专利</span><span class="st">★★<span class="off">★★★</span></span></div>
+            <div class="srow" title="零：架构原生形态，直接进 Stage 6"><span class="slabel">代价</span><span class="st">★★★★★</span></div>
+            <div class="srow" title="¥99–129"><span class="slabel">价位</span><span class="st">★★★<span class="off">★★</span></span></div>
+            <div class="srow" title="零改动"><span class="slabel">架构</span><span class="st">★★★★★</span></div>
+          </div>
+          <div class="src">cad/form_d.glb · 五视图已产出 · 待人类验收</div>
+        </div>
+      </section>
+    </div>
+
+    <details>
+      <summary>
+        探索 — 形态 W1 / W2
+        <span class="ph">W1 GLB 待补 — S6 建模中 · W2 GLB 待补 — 未排期</span>
+        <span class="arrow">展开 ▸</span>
+      </summary>
+      <div class="explore-body">
+        <div class="wcard">
+          <img src="../../../../concepts_v2/W1.png" alt="形态 W1 氛围灯融合 概念图">
+          <div class="wbody">
+            <div class="whead"><b>W1 · 氛围灯融合</b><span class="badge b-warn">待补</span></div>
+            <p>让降温设备读起来像一盏高级氛围灯。野卡探索，工程未评估（光路+风道共存待验证）——GLB 产出后进入对比。</p>
+          </div>
+        </div>
+        <div class="wcard">
+          <img src="../../../../concepts_v2/W2.png" alt="形态 W2 精工铝 unibody 概念图">
+          <div class="wbody">
+            <div class="whead"><b>W2 · 精工铝 unibody</b><span class="badge b-warn">待补</span></div>
+            <p>阳极氧化铝横柱，Teenage Engineering 式精工路线。铝挤+CNC 成本高于注塑，需 BOM 重估——未排期。</p>
+          </div>
+        </div>
+      </div>
+    </details>
+  </main>
+</div>
+
+</body>
+</html>

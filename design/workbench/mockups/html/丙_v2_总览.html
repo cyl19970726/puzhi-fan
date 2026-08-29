@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1440">
+<title>LiteCool S1 Workbench — 总览 · 丙 v2 文档排印</title>
+<style>
+  /* ── 丙 v2 共享 design tokens（两稿一致，Phase 2 测量底稿）── */
+  :root{
+    --bg:#F7F7F5; --paper:#FFFFFF; --side:#F1F1EF; --hairline:#E3E2DE;
+    --ink:#37352F; --ink-2:#73716C; --ink-3:#A3A29C;
+    --accent:#2F6B4F;
+    --ok:#2F6B4F; --warn:#9A7B2D; --risk:#B4544A;
+    --ok-tint:#EEF4F0; --ok-line:#CBDDD2;
+    --warn-tint:#F7F1E3; --warn-line:#E3D4B2;
+    --risk-tint:#F8EEEC; --risk-line:#E7C8C3;
+    --star-off:#D8D6D0;
+    --sans:-apple-system,"SF Pro Text","Inter","Helvetica Neue","PingFang SC",sans-serif;
+    --serif:"New York",Georgia,"Songti SC",serif;
+    --mono:ui-monospace,"SF Mono",Menlo,monospace;
+    --fs-h1:28px; --fs-sec:20px; --fs-card:15px; --fs-body:13px; --fs-meta:11px;
+    --sp-1:8px; --sp-2:16px; --sp-3:20px; --sp-4:24px; --sp-5:48px;
+    --r-card:6px; --r-ctl:4px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--ink);font:var(--fs-body)/1.6 var(--sans);-webkit-font-smoothing:antialiased}
+  .mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+
+  /* ── 顶栏：品牌 + 数据时间戳 + 面包屑 + 语义图例 ── */
+  .topbar{position:sticky;top:0;height:48px;background:var(--paper);border-bottom:1px solid var(--hairline);
+    display:flex;align-items:center;padding:0 var(--sp-3);gap:var(--sp-2);z-index:10}
+  .brand{font-weight:600;font-size:var(--fs-body);white-space:nowrap}
+  .brand .ts{font-size:var(--fs-meta);font-family:var(--mono);color:var(--ink-3);font-weight:400;margin-left:var(--sp-1)}
+  .crumb{flex:1;text-align:center;font-size:var(--fs-meta);color:var(--ink-2)}
+  .crumb b{color:var(--ink);font-weight:600}
+  .legend{display:flex;gap:var(--sp-2);font-size:var(--fs-meta);color:var(--ink-2);white-space:nowrap}
+  .legend i{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:5px;vertical-align:1px}
+  .dot-ok{background:var(--ok)}.dot-warn{background:var(--warn)}.dot-risk{background:var(--risk)}
+
+  .shell{display:flex;max-width:1440px;margin:0 auto}
+
+  /* ── 左侧栏导航：六章 + 状态点 ── */
+  .sidebar{width:232px;flex:none;background:var(--side);border-right:1px solid var(--hairline);
+    min-height:calc(100vh - 48px);padding:var(--sp-3) var(--sp-2)}
+  .side-label{font-size:var(--fs-meta);font-family:var(--mono);letter-spacing:.08em;color:var(--ink-3);
+    padding:0 var(--sp-1) var(--sp-1)}
+  .snav{display:flex;flex-direction:column;gap:2px}
+  .snav a{display:flex;align-items:center;gap:var(--sp-1);padding:var(--sp-1);border-radius:var(--r-card);
+    font-size:var(--fs-body);color:var(--ink-2);text-decoration:none}
+  .snav a .no{font-size:var(--fs-meta);font-family:var(--mono);color:var(--ink-3);width:16px}
+  .snav a .lbl{flex:1}
+  .snav a.on{background:#E8E7E3;color:var(--ink);font-weight:600}
+  .snav a.on .no{color:var(--accent)}
+  .snav .dot{width:7px;height:7px;border-radius:50%;flex:none}
+  .snav .dot.ok{background:var(--ok)}.snav .dot.warn{background:var(--warn)}
+  .snav .dot.risk{background:var(--risk)}.snav .dot.off{background:var(--star-off)}
+  .side-meta{margin-top:var(--sp-4);padding:var(--sp-2) var(--sp-1) 0;font-size:var(--fs-meta);
+    font-family:var(--mono);color:var(--ink-3);line-height:1.8;border-top:1px solid var(--hairline)}
+
+  /* ── 正文 ── */
+  .doc{flex:1;min-width:0;padding:var(--sp-4) 40px var(--sp-4)}
+  .doc h1{font:700 var(--fs-h1)/1.45 var(--serif);letter-spacing:.01em;margin-bottom:var(--sp-1)}
+  .lede{font-size:var(--fs-body);color:var(--ink-2);max-width:880px;margin-bottom:var(--sp-4)}
+  .lede b{font-weight:600}
+
+  .sec-head{display:flex;align-items:baseline;gap:var(--sp-2);margin-bottom:var(--sp-2)}
+  .sec-head h2{font:600 var(--fs-sec)/1.45 var(--serif)}
+  .sec-head .sec-meta{font-size:var(--fs-meta);color:var(--ink-3)}
+  section{margin-bottom:var(--sp-5)}
+
+  /* ── 徽章 ── */
+  .badge{font-size:var(--fs-meta);padding:2px var(--sp-1);border-radius:var(--r-ctl);border:1px solid;white-space:nowrap}
+  .b-ok{color:var(--ok);border-color:var(--ok-line);background:var(--ok-tint)}
+  .b-warn{color:var(--warn);border-color:var(--warn-line);background:var(--warn-tint)}
+  .b-risk{color:var(--risk);border-color:var(--risk-line);background:var(--risk-tint)}
+
+  /* ── 当前阻塞卡（本页视觉锚点）── */
+  .blocker{background:var(--paper);border:1px solid var(--risk-line);border-left:3px solid var(--risk);
+    border-radius:var(--r-card);padding:var(--sp-3)}
+  .bk-head{display:flex;align-items:baseline;gap:var(--sp-2);margin-bottom:var(--sp-1)}
+  .bk-head h2{font:600 var(--fs-sec)/1.45 var(--serif);color:var(--risk)}
+  .bk-head .bk-why{font-size:var(--fs-meta);color:var(--ink-2)}
+  .bk-item{display:flex;align-items:flex-start;gap:var(--sp-2);padding:var(--sp-1) 0;border-top:1px solid var(--hairline)}
+  .bk-no{flex:none;width:22px;height:22px;border:1px solid var(--risk-line);border-radius:50%;
+    font:var(--fs-meta)/20px var(--mono);text-align:center;color:var(--risk)}
+  .bk-body{flex:1;min-width:0}
+  .bk-title{font-size:var(--fs-card);font-weight:600}
+  .bk-title .who{font-size:var(--fs-meta);font-family:var(--mono);font-weight:400;color:var(--ink-2);margin-left:var(--sp-1)}
+  .bk-sub{font-size:var(--fs-body);color:var(--ink-2);margin-top:2px;max-width:880px}
+  .bk-item .badge{margin-top:2px}
+
+  /* ── 项目进度 S0–S9 横条 ── */
+  .stages{display:grid;grid-template-columns:repeat(10,1fr);border:1px solid var(--hairline);
+    border-radius:var(--r-card);overflow:hidden;background:var(--paper)}
+  .stage{padding:var(--sp-1);border-right:1px solid var(--hairline);border-top:3px solid var(--star-off)}
+  .stage:last-child{border-right:0}
+  .stage.done{border-top-color:var(--ok)}
+  .stage.doing{border-top-color:var(--warn)}
+  .stage.blocked{border-top-color:var(--risk)}
+  .stage .sid{display:block;font-size:var(--fs-meta);font-family:var(--mono);color:var(--ink-3)}
+  .stage .sname{display:block;font-size:var(--fs-meta);font-weight:600;color:var(--ink);margin:2px 0;white-space:nowrap}
+  .stage .sst{display:block;font-size:var(--fs-meta);color:var(--ink-3);white-space:nowrap}
+  .stage.done .sst{color:var(--ok)}
+  .stage.doing .sst{color:var(--warn)}
+  .stage.blocked .sst{color:var(--risk)}
+
+  /* ── 最近决策 ── */
+  .dlist{background:var(--paper);border:1px solid var(--hairline);border-radius:var(--r-card)}
+  .drow{display:flex;align-items:baseline;gap:var(--sp-2);padding:var(--sp-1) var(--sp-3);
+    border-bottom:1px solid var(--hairline)}
+  .drow:last-child{border-bottom:0}
+  .drow .did{flex:none;width:132px;font-size:var(--fs-meta);font-family:var(--mono);color:var(--ink-2)}
+  .drow .badge{flex:none}
+  .drow .dbody{flex:1;min-width:0;max-width:880px}
+  .drow .dbody b{font-size:var(--fs-body);font-weight:600;margin-right:var(--sp-1)}
+  .drow .dbody span{font-size:var(--fs-body);color:var(--ink-2)}
+
+  /* ── 数据新鲜度 ── */
+  .fresh{display:flex;align-items:baseline;gap:var(--sp-2);font-size:var(--fs-meta);color:var(--ink-3);
+    border-top:1px solid var(--hairline);padding-top:var(--sp-2)}
+  .fresh .k{font-weight:600;color:var(--ink-2);letter-spacing:.05em}
+  .fresh .mono{color:var(--ink-2)}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">LiteCool S1 Workbench<span class="ts">data 2026-08-29 18:06</span></div>
+  <div class="crumb">工作台 / <b>总览</b></div>
+  <div class="legend"><span><i class="dot-ok"></i>已核验</span><span><i class="dot-warn"></i>待补</span><span><i class="dot-risk"></i>风险</span></div>
+</header>
+
+<div class="shell">
+  <aside class="sidebar">
+    <div class="side-label">章节</div>
+    <nav class="snav">
+      <a href="#" class="on"><span class="no">①</span><span class="lbl">总览</span></a>
+      <a href="#"><span class="no">②</span><span class="lbl">市场证据</span><span class="dot ok"></span></a>
+      <a href="#"><span class="no">③</span><span class="lbl">形态决策</span><span class="dot ok"></span></a>
+      <a href="#"><span class="no">④</span><span class="lbl">工程实现</span><span class="dot risk"></span></a>
+      <a href="#"><span class="no">⑤</span><span class="lbl">合规</span><span class="dot warn"></span></a>
+      <a href="#"><span class="no">⑥</span><span class="lbl">决策档案</span><span class="dot ok"></span></a>
+    </nav>
+    <div class="side-meta">数据源 data/*.json<br>只读工作台 · 桌面 1440px+</div>
+  </aside>
+
+  <main class="doc">
+    <h1>总览</h1>
+    <p class="lede">本章回答：项目现在走到哪一步、卡在谁身上、接下来发生什么。进度与阻塞来自
+      <span class="mono">pipeline_status.json</span>，决策来自 <span class="mono">decisions.json</span>。</p>
+
+    <!-- 当前阻塞：视觉锚点 -->
+    <section class="blocker">
+      <div class="bk-head">
+        <h2>当前阻塞 — 等你的动作</h2>
+        <span class="bk-why">卡住 S4 供应商询价（闸未过）→ 报价回填后才能复核 R8 / Q3</span>
+      </div>
+      <div class="bk-item">
+        <span class="bk-no">1</span>
+        <div class="bk-body">
+          <div class="bk-title">打李伟电话，约签 NDA<span class="who">蓝鲸喜/语蝉鸣 · 199****2258</span></div>
+          <div class="bk-sub">对方邀到厂+工程面谈；NDA 模板已备（rfq/NDA_template.md），签署后发 GLB/STEP 预评估报价，再约到厂验场。</div>
+        </div>
+        <span class="badge b-risk">阻塞</span>
+      </div>
+      <div class="bk-item">
+        <span class="bk-no">2</span>
+        <div class="bk-body">
+          <div class="bk-title">臻源开模费量级回复<span class="who">旺旺 zhenyuan0068 · 甲供模式已确认</span></div>
+          <div class="bk-sub">已追问开模费/组装测试费/首单 MOQ/打样周期；08-30 10:41 自动跟进任务，回复后报价回填 bom.json。</div>
+        </div>
+        <span class="badge b-warn">待回复</span>
+      </div>
+    </section>
+
+    <!-- 项目进度 -->
+    <section>
+      <div class="sec-head">
+        <h2>项目进度</h2>
+        <span class="sec-meta">S0–S9 · 完成 2 · 进行 5 · 阻塞 1 · 未开始 2 ｜ 校验 <span class="mono">pass 14 / warn 4 / fail 1</span></span>
+      </div>
+      <div class="stages">
+        <div class="stage done"><span class="sid">S0</span><span class="sname">需求基线</span><span class="sst">完成</span></div>
+        <div class="stage doing"><span class="sid">S1</span><span class="sname">竞品调研</span><span class="sst">进行 · 闸过</span></div>
+        <div class="stage done"><span class="sid">S2</span><span class="sname">形态设计</span><span class="sst">完成 · 闸过</span></div>
+        <div class="stage doing"><span class="sid">S3</span><span class="sname">专利查询</span><span class="sst">进行 · 初判</span></div>
+        <div class="stage doing"><span class="sid">S4</span><span class="sname">供应商询价</span><span class="sst">进行 · 闸未过</span></div>
+        <div class="stage doing"><span class="sid">S5</span><span class="sname">BOM 核算</span><span class="sst">进行 · 警告</span></div>
+        <div class="stage doing"><span class="sid">S6</span><span class="sname">3D 建模</span><span class="sst">进行 · 待验收</span></div>
+        <div class="stage blocked"><span class="sid">S7</span><span class="sname">人类验收</span><span class="sst">阻塞 · 闸过</span></div>
+        <div class="stage"><span class="sid">S8</span><span class="sname">手板验证</span><span class="sst">未开始</span></div>
+        <div class="stage"><span class="sid">S9</span><span class="sname">FTO+开模</span><span class="sst">未开始</span></div>
+      </div>
+    </section>
+
+    <!-- 最近决策 -->
+    <section>
+      <div class="sec-head">
+        <h2>最近决策</h2>
+        <span class="sec-meta">最新在上 · 完整时间线见 ⑥ 决策档案</span>
+      </div>
+      <div class="dlist">
+        <div class="drow">
+          <span class="did">D-2026-08-29-01</span>
+          <span class="badge b-ok">选定</span>
+          <div class="dbody"><b>Q1 形态方向 → A 桌面挂机</b>
+            <span>六维评分最高（均分 4.2），专利评级中且规避设计成文；B/D 装配体保留为备份基线。</span></div>
+        </div>
+        <div class="drow">
+          <span class="did">D-2026-08-29-02</span>
+          <span class="badge b-risk">砍掉</span>
+          <div class="dbody"><b>Q2 ¥69 风冷走量款 → 不保留</b>
+            <span>风冷与 C1（品类=小空调）冲突；聚焦双 SKU（Cool ¥119–129 / Pro ¥159）。</span></div>
+        </div>
+        <div class="drow">
+          <span class="did">D-2026-08-29-03</span>
+          <span class="badge b-warn">组合策略</span>
+          <div class="dbody"><b>Q3 BOM 超标 ≈¥20 → 询价压实为先</b>
+            <span>以出厂 ¥65–72 目标谈判电池/注塑/PCB 三大项；达不到则 Cool 定价 ¥129，红线不降 TEC/电池规格。</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 数据新鲜度 -->
+    <footer class="fresh">
+      <span class="k">数据新鲜度</span>
+      <span class="mono">pipeline_status 2026-08-29 18:06:50 · forms 08-29 14:45 · bom 08-29 11:36 · decisions 08-29 · competitors 08-28 16:57</span>
+    </footer>
+  </main>
+</div>
+
+</body>
+</html>
