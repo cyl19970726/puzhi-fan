@@ -17,6 +17,8 @@
 - STL：`cad/stl/` 23 件 A 类结构件逐件 STL（另有 `_preview_*.png` 修复件预览图）
 - 校验：`cad/stl/validation_report.md`——结构（流形/法线/尺寸）23/23 全绿；4 件（Body 唇口/M1_Pinion/M1_Sector/M5_Separator）为「工艺条件绿」：数值如实列出 + 处置已织进 PRINT_GUIDE（齿轮强制 SLA、Body 唇口降速 50%、热端禁 PLA）。可复测：`cad/validate_stl.py` + `gen_validation_report.py`
 - 打印指南：`cad/stl/PRINT_GUIDE.md`（逐件材料/工艺/摆放/支撑/后处理）
+- **几何修正（08-30 05:00 增量）**：发现生成器缺陷 2 处并已修复重验——Band 腰线原为实心板（101cm³）→ 环带化（7.5cm³，切片验证 8.1% 填充=双环）；Base 配重腔原缺失（实心 418cm³）→ 开腔（143.6cm³，z=8 截面 15% 填充=仅壁）。修复在源（`build_core_eng.py`），重导 STL + 双闸重验 23/23 全绿，装配 GLB 与受控包副本同步刷新。根因：此前"全绿"只是水密闸，几何内容（环带/腔体是否存在）无闸——本次已用截面填充法补验
+- 量级报价单（臻源要"塑料件 3D 单独报价"的 NDA 前替代）：`rfq/plastic_parts_summary.md`——20 项塑料件实测尺寸/体积/估算克重/材料/模具备注 + 请工厂回填表（开模费/单价/MOQ/组装费）+ 重量预算风险（塑料件 ≈600g vs 整机目标 450g，已列三条减重路径）
 - 采购包：`cad/stl/purchase_list.md`——购买件清单（BOM ✅ 候选链接+样品量）+ 电子快路模块清单；六家（先导/锐泓/奕辉/凯越光/博顺/俊诚）旺旺样品询价全部真实发出（touid+时间戳），状态：先导秒回追问用途已答、俊诚已读待报价、其余待复；**未支付**
 - 分级依据：`docs/prototype_3d_print_route.md`
 

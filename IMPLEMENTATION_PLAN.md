@@ -54,3 +54,4 @@
 **Goal**: 3D 打印结构件 + 购买功能件，单台 ≈¥400–600/1 周，把 T1–T7 热架构验证从 ODM 谈判解耦
 **Success Criteria**: cad/stl/ A 类件 STL 校验全绿 + PRINT_GUIDE + purchase_list（样品询价状态）
 **Status**: Complete（2026-08-30）→ `cad/stl/` 23 件 STL（Voxel Remesh 修复 15 件穿插/破面，731→227MB）+ `validation_report.md`（23/23 全绿，3 件工艺风险带建议）+ `PRINT_GUIDE.md` + `purchase_list.md`（六家旺旺样品询价已发待复，未支付）
+**补丁（08-30 05:00）**：生成器几何缺陷 2 处修复——Band 实心板→环带、Base 补配重腔（源修复 `build_core_eng.py`，重导+双闸重验全绿，GLB/受控包同步）；新增 `rfq/plastic_parts_summary.md` 量级估价表（臻源"3D 单独报价"的 NDA 前替代，含重量预算风险：塑料件估算 ≈600g vs 目标 450g）

@@ -404,9 +404,11 @@ def build_shell(m):
     parts.append(join_parts("M7_Clip", clips))
     parts.append(box("M7_Module", (0.026, 0.006, 0.050), (0.118, BODY_Y1 - 0.0065, 0.072),
                      mat=m["ICBlack"], bevel=0.0015))
-    # ---- 底座：滑板座 + 3×(Ø2.5 通孔 + Ø5 沉孔) + 防滑圈 + Type-C ----
+    # ---- 底座：滑板座 + 配重腔 + 3×(Ø2.5 通孔 + Ø5 沉孔) + 防滑圈 + Type-C ----
     base = box("Base", (0.016, 0.118, 0.228), (0.008, 0, 0), mat=m["BodyIvory"])
     apply_bevel(base, 0.006, seg=4)
+    # 配重腔：顶面开口（朝机身内），4mm 底 / 6mm 壁，装配后灌铅砂/钢珠 + 环氧封口
+    boolean_cut(base, box("cutter_weight", (0.013, 0.106, 0.216), (0.0105, 0, 0)))
     BOSS_AT = [(0.035, 0.080), (0.035, -0.080), (-0.040, 0.0)]
     for i, (by, bz) in enumerate(BOSS_AT):
         boolean_cut(base, cyl("cutter_screw_%d" % i, 0.00125, 0.020, (0.008, by, bz), rot=(0, math.pi / 2, 0)))
@@ -426,9 +428,12 @@ def build_shell(m):
     parts.append(skid)
     parts.append(box("TypeC", (0.005, 0.003, 0.011), (0.008, -0.0585, 0),
                      mat=m["VoidDark"], bevel=0.0015))
-    # ---- 腰线（外观分模线，沿用概念） ----
-    parts.append(box("Band", (0.004, 0.114, 0.224), (0.030, 0, 0),
-                     mat=m["BandMint"], bevel=0.0018))
+    # ---- 腰线（外观分模线环带，沿用概念；套在机身上，四周 0.4mm 装配间隙） ----
+    band = box("Band", (0.004, 0.114, 0.224), (0.030, 0, 0),
+               mat=m["BandMint"], bevel=0.0018)
+    # 环带化：按机身截面抽芯（该站位机身 y[-0.055,0.0512] z[±0.1097] + 0.4mm/侧间隙）
+    boolean_cut(band, box("cutter_band", (0.006, 0.1070, 0.2202), (0.030, -0.0019, 0)))
+    parts.append(band)
     # ---- 顶部旋钮 + 制冷键（贴合拔模后的顶面） ----
     def top_x_at(yy):
         return (BODY_X1 - dx) + dx * ((yy - BODY_Y0) / (BODY_Y1 - BODY_Y0))
