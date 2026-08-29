@@ -1,0 +1,10 @@
+/* base.css —— 全站基础（reset / 字体 / focus-visible 统一，contract §5 键盘纪律） */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { -webkit-font-smoothing: antialiased; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC", "Helvetica Neue", "Microsoft YaHei", sans-serif;
+  background: var(--lc-bg); color: var(--lc-ink); font-size: var(--lc-fs-body);
+}
+:focus-visible { outline: 2px solid var(--lc-link); outline-offset: 1px; }
+a { color: var(--lc-link); text-decoration: none; }
+a:hover { text-decoration: underline; }

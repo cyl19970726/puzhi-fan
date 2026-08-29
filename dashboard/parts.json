@@ -1,0 +1,213 @@
+{
+  "_schema": "部件基底名 → 标注信息。模型节点名以基底名开头即命中。status: verified(1688详情页核验) | candidate(搜索页候选) | to-source(待整机ODM代采)。数据源: research/1688_factories.md (2026-08 实采)",
+  "Tower": {
+    "label": "塔身壳体（ABS 注塑 + UV 哑光喷涂）",
+    "process": "ABS 注塑，壁厚 2.0mm，前脸格栅孔 + 数显窗开口",
+    "factory": "东莞市东凯塑胶电子有限公司（直接做 USB 风扇壳，来图加工+包工包料）",
+    "contact": "1688 搜「东凯塑胶」旺旺在线",
+    "price": "¥4–6/件",
+    "moq": "1000 件",
+    "link": "https://www.1688.com",
+    "status": "candidate"
+  },
+  "GrilleBar": {
+    "label": "前出风网罩格栅（×8 径向条）",
+    "process": "ABS 注塑深灰（随后壳厂一体）",
+    "factory": "东莞市东凯塑胶电子有限公司（随壳体注塑）",
+    "contact": "1688 搜「东凯塑胶」旺旺在线",
+    "price": "含壳体",
+    "moq": "—",
+    "link": "",
+    "status": "candidate"
+  },
+  "GrilleRing": {
+    "label": "前网罩装饰环（旋扣式可拆洗网罩外框）",
+    "process": "深灰 PC 注塑，旋扣卡接（对标 kinglucky 可拆洗卖点）",
+    "factory": "东莞市东凯塑胶电子有限公司（随壳体注塑）",
+    "contact": "1688 搜「东凯塑胶」旺旺在线",
+    "price": "含壳体",
+    "moq": "—",
+    "link": "",
+    "status": "candidate"
+  },
+  "GrilleBack": {
+    "label": "网罩后遮光板",
+    "process": "深黑 ABS 注塑",
+    "factory": "东莞市东凯塑胶电子有限公司（随壳体注塑）",
+    "contact": "1688 搜「东凯塑胶」",
+    "price": "含壳体",
+    "moq": "—",
+    "link": "",
+    "status": "candidate"
+  },
+  "GrilleHub": {
+    "label": "网罩中心毂",
+    "process": "ABS 注塑深灰",
+    "factory": "东莞市东凯塑胶电子有限公司（随壳体注塑）",
+    "contact": "1688 搜「东凯塑胶」",
+    "price": "含壳体",
+    "moq": "—",
+    "link": "",
+    "status": "candidate"
+  },
+  "FanBlade": {
+    "label": "轴流扇叶（×3）",
+    "process": "POM/ABS 注塑动平衡",
+    "factory": "锐泓动力(深圳)科技有限公司（涡轮叶无刷电机套件 ¥6，5-9V USB 适配）",
+    "contact": "1688 offer 1065454211732",
+    "price": "¥2–6/套",
+    "moq": "2000 件",
+    "link": "https://detail.1688.com/offer/1065454211732.html",
+    "status": "verified"
+  },
+  "FanHub": {
+    "label": "风机电机毂（无刷电机总成）",
+    "process": "无刷电机（9000rpm，FOC 驱动，100 档无级）",
+    "factory": "锐泓动力(深圳)（无刷套件）/ 揭阳泓裕电子（16.8mm 微型无刷马达 ¥2）",
+    "contact": "1688 offer 822302852978（泓裕）",
+    "price": "¥2–6",
+    "moq": "8600 件（泓裕现货）",
+    "link": "https://detail.1688.com/offer/822302852978.html",
+    "status": "verified"
+  },
+  "Display": {
+    "label": "出风温度数显模组（核心卖点）",
+    "process": "半透黑 PMMA 窗 + LED 数码管 + NTC 温度探头（出风口）",
+    "factory": "永康市尊智科技有限公司（控制模块服务榜第1，来图加工）",
+    "contact": "1688 搜「尊智科技」旺旺在线",
+    "price": "¥3–5/套",
+    "moq": "1000 套",
+    "link": "",
+    "status": "candidate"
+  },
+  "Band": {
+    "label": "品牌腰线装饰带（薄荷绿）",
+    "process": "双色注塑或 UV 印刷",
+    "factory": "东莞市东凯塑胶电子有限公司（随壳体）",
+    "contact": "1688 搜「东凯塑胶」",
+    "price": "含壳体",
+    "moq": "—",
+    "link": "",
+    "status": "candidate"
+  },
+  "Knob": {
+    "label": "无级调速旋钮（100 档）",
+    "process": "ABS 注塑 + 编码器（电位器/磁编）",
+    "factory": "中山市小榄镇忠厚模具塑料制品厂（两季电器配件/齿轮，来图加工+包工包料）",
+    "contact": "1688 搜「忠厚模具」旺旺在线",
+    "price": "¥0.8–1.5/套",
+    "moq": "1000 套",
+    "link": "",
+    "status": "candidate"
+  },
+  "IntakeBar": {
+    "label": "后进风格栅条（×7）",
+    "process": "ABS 注塑（随后壳）",
+    "factory": "东莞市东凯塑胶电子有限公司（随壳体注塑）",
+    "contact": "1688 搜「东凯塑胶」",
+    "price": "含壳体",
+    "moq": "—",
+    "link": "",
+    "status": "candidate"
+  },
+  "HotVentBar": {
+    "label": "TEC 热风排口格栅（×4，后上部）",
+    "process": "ABS 注塑（随后壳）",
+    "factory": "东莞市东凯塑胶电子有限公司（随壳体注塑）",
+    "contact": "1688 搜「东凯塑胶」",
+    "price": "含壳体",
+    "moq": "—",
+    "link": "",
+    "status": "candidate"
+  },
+  "Base": {
+    "label": "底座（含摇头机构安装位）",
+    "process": "ABS 注塑 + 同步摇头电机（120° 自动摇头）",
+    "factory": "慈溪市韩雀电器有限公司（整机 ODM 首选：12 年超级工厂，OEM/ODM/OBM/CMT，6900㎡）",
+    "contact": "1688 搜「韩雀电器」客服在线",
+    "price": "整机 ODM 询价",
+    "moq": "—",
+    "link": "",
+    "status": "verified"
+  },
+  "BaseRing": {
+    "label": "底座防滑胶圈",
+    "process": "硅胶/TPU 注塑",
+    "factory": "随整机 ODM 代采（标准件）",
+    "contact": "—",
+    "price": "¥0.3–0.5",
+    "moq": "—",
+    "link": "",
+    "status": "to-source"
+  },
+  "TypeC": {
+    "label": "Type-C 母座（5V/2A 充插两用）",
+    "process": "标准件",
+    "factory": "整机 ODM 代采（标准件）",
+    "contact": "—",
+    "price": "¥0.2–0.5",
+    "moq": "—",
+    "link": "",
+    "status": "to-source"
+  },
+  "TEC": {
+    "label": "半导体制冷片 TEC（内部件，模型未显示）",
+    "process": "40×40 级 TEC（风扇专用 TEC04902 类），冷面贴铝鳍风道",
+    "factory": "浙江先导热电科技股份有限公司（TEC04902 风扇专用 ¥4.2，工厂直供）",
+    "contact": "1688 店铺 shop4839472514335",
+    "price": "¥3.1–4.2/片",
+    "moq": "30–500 件",
+    "link": "https://shop4839472514335.1688.com",
+    "status": "verified"
+  },
+  "Battery": {
+    "label": "18650 电池组（内部件，模型未显示）",
+    "process": "18650 ×2 并联 4000–5000mAh，3C/CQC + UN38.3",
+    "factory": "东莞市奕辉科技有限公司（小单拿样）/ 广东言九电子（省级专精特新，来图加工）",
+    "contact": "旺旺: 奕辉科技888 / yanjiupower",
+    "price": "¥14–20/组",
+    "moq": "拿样支持",
+    "link": "",
+    "status": "candidate"
+  },
+  "PCB": {
+    "label": "主控 PCB（内部件，模型未显示）",
+    "process": "FOC 无刷驱动 + 充电管理 + TEC 恒流驱动 + 数显/温度采集",
+    "factory": "永康市尊智科技有限公司（控制模块榜第1）/ 深圳众鑫天宇（PCB+TEC 一体）",
+    "contact": "1688 搜「尊智科技」/「众鑫天宇」",
+    "price": "¥6–10/套",
+    "moq": "1000 套",
+    "link": "",
+    "status": "candidate"
+  },
+  "Oscillator": {
+    "label": "摇头机构（内部件，模型未显示）",
+    "process": "底座同步电机 + 摩擦阻尼，120° 自动摇头",
+    "factory": "慈溪市韩雀电器有限公司（整机 ODM 内配）",
+    "contact": "1688 搜「韩雀电器」",
+    "price": "¥4–8/套",
+    "moq": "—",
+    "link": "",
+    "status": "candidate"
+  },
+  "Box": {
+    "label": "彩盒包装（内部件，模型未显示）",
+    "process": "250×120×120mm 抽屉彩盒，盒面印参数表",
+    "factory": "东莞市艺卓包装制品有限公司（数码3C包装，超级工厂12年）",
+    "contact": "1688 搜「艺卓包装」旺旺在线",
+    "price": "¥1.5–3/套",
+    "moq": "1000 套",
+    "link": "",
+    "status": "candidate"
+  },
+  "ODM": {
+    "label": "整机 ODM 总装（备选方案）",
+    "process": "整机代工：慈溪韩雀（12年超级工厂，制冷涡轮扇在售¥49）｜深圳向往创展（整条半导体制冷风扇线，来图加工）｜深圳鑫创纪元（19年，迪士尼代工）｜东莞语蝉鸣（199档数显风扇11万件）",
+    "factory": "首选询价：慈溪市韩雀电器 / 深圳市向往创展科技有限公司",
+    "contact": "向往创展电话 86-755-13028832350（已捕获）；其余 1688 旺旺",
+    "price": "整机出厂目标 ¥55–65（Cool 款）",
+    "moq": "500–2000 台",
+    "link": "https://shop8k584e719e314.1688.com",
+    "status": "verified"
+  }
+}

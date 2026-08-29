@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LiteCool S1 — 产品工作台</title>
+<style>
+  :root { --bg:#f4f5f7; --card:#fff; --ink:#1f2430; --muted:#6b7280; --accent:#16a085; --warn:#d97706; --bad:#dc2626; --good:#166534; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif; background:var(--bg); color:var(--ink); }
+  #tabs { display:flex; gap:8px; padding:12px 16px; background:#fff; border-bottom:1px solid #e5e7eb; position:sticky; top:0; z-index:50; }
+  #tabs button { border:1px solid #d1d5db; background:#fff; color:var(--muted); padding:8px 18px; border-radius:20px; font-size:14px; cursor:pointer; }
+  #tabs button.active { background:var(--accent); border-color:var(--accent); color:#fff; font-weight:600; }
+  section.tab { display:none; padding:20px; max-width:1280px; margin:0 auto; }
+  section.tab.active { display:block; }
+  h1 { font-size:20px; margin-bottom:6px; }
+  h2 { font-size:15px; margin:18px 0 10px; color:var(--ink); border-left:4px solid var(--accent); padding-left:8px; }
+  .sub { color:var(--muted); font-size:12.5px; line-height:1.6; }
+  /* 竞品分析 */
+  .insight { background:#fff; border-radius:12px; padding:14px 16px; margin-bottom:12px; border:1px solid #e5e7eb; }
+  .insight h3 { font-size:14px; margin-bottom:6px; }
+  .insight ul { padding-left:20px; font-size:13px; line-height:1.8; }
+  .insight li b { color:var(--accent); }
+  #grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(360px,1fr)); gap:12px; }
+  .card { background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:14px; }
+  .card .top { display:flex; justify-content:space-between; align-items:baseline; gap:8px; }
+  .card .name { font-size:14.5px; font-weight:600; }
+  .card .price { font-size:17px; color:var(--bad); font-weight:700; white-space:nowrap; }
+  .card .meta { font-size:12px; color:var(--muted); margin:4px 0 8px; }
+  .chip { display:inline-block; font-size:11px; background:#f3f4f6; border:1px solid #e5e7eb; border-radius:10px; padding:1px 8px; margin:2px 3px 0 0; }
+  .chip.cat { background:#dcfce7; color:var(--good); border-color:#bbe7c9; }
+  .func { font-size:12.5px; line-height:1.6; margin:8px 0; color:#374151; }
+  .func b { color:var(--ink); }
+  .rv { font-size:12px; margin-top:6px; }
+  .rv .g { color:var(--good); }
+  .rv .b { color:var(--bad); }
+  .rv li { margin:2px 0 2px 16px; line-height:1.5; }
+  /* 设计概念图 */
+  #concepts { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:14px; }
+  .concept { background:#fff; border:1px solid #e5e7eb; border-radius:12px; overflow:hidden; }
+  .concept img { width:100%; height:auto; display:block; }
+  .concept .cap { padding:8px 12px; font-size:13px; font-weight:600; }
+  /* 3D 拆分 */
+  #app3d { display:flex; height:calc(100vh - 70px); }
+  #canvas { flex:1; position:relative; }
+  #canvas canvas { display:block; }
+  #hint { position:absolute; left:16px; bottom:14px; font-size:12px; color:var(--muted); background:rgba(255,255,255,.85); padding:6px 10px; border-radius:8px; pointer-events:none; }
+  #sidebar { width:340px; background:var(--card); border-left:1px solid #e5e7eb; display:flex; flex-direction:column; }
+  #head { padding:14px; border-bottom:1px solid #e5e7eb; }
+  #head h1 { font-size:16px; margin-bottom:4px; }
+  #listwrap { flex:1; overflow-y:auto; padding:10px; }
+  .part { border:1px solid #e5e7eb; border-radius:10px; padding:10px 12px; margin-bottom:8px; cursor:pointer; }
+  .part:hover { border-color:#c7cdd6; }
+  .part.active { border-color:var(--accent); background:#f0faf7; }
+  .part .t { font-size:13px; font-weight:600; }
+  .part .p { font-size:12px; color:var(--muted); margin-top:3px; line-height:1.45; }
+  .part .f { font-size:12px; margin-top:4px; }
+  #detail { border-top:1px solid #e5e7eb; padding:12px 14px; font-size:12px; min-height:120px; }
+  #detail h2 { font-size:13px; margin:0 0 6px; border:none; padding:0; }
+  #detail .row { margin:3px 0; }
+  #detail .row b { color:var(--muted); font-weight:500; margin-right:6px; }
+  #detail a { color:var(--accent); }
+  #detail .empty { color:var(--muted); }
+  .badge { display:inline-block; font-size:11px; padding:1px 7px; border-radius:10px; margin-left:6px; vertical-align:1px; }
+  .b-verified { background:#dcfce7; color:var(--good); }
+  .b-candidate { background:#fef3c7; color:#92400e; }
+  .b-to-source { background:#fee2e2; color:#991b1b; }
+</style>
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+} }
+</script>
+</head>
+<body>
+<nav id="tabs">
+  <button data-tab="market" class="active">① 竞品分析</button>
+  <button data-tab="design">② 设计概念图</button>
+  <button data-tab="cad">③ 3D 拆分</button>
+</nav>
+
+<section class="tab active" id="tab-market">
+  <h1>① 竞品分析 — 淘宝桌面风扇品类</h1>
+  <div class="sub" id="market-sub">数据：ego-browser 实时抓取（销量排序）+ 详情页参数 + 评价（差评原文）。更新时间见底部。</div>
+  <h2>设计功能洞察（从竞品差评与结构反推）</h2>
+  <div id="insights"></div>
+  <h2>竞品清单（点击链接可回淘宝核对）</h2>
+  <div id="grid"></div>
+</section>
+
+<section class="tab" id="tab-design">
+  <h1>② 设计概念图 — 六种形态原型</h1>
+  <div class="sub">品类身份：<b>桌面小空调（半导体制冷 TEC）</b>，不是风扇。每张形态都必须可读"制冷"：冷风导流口 + 独立热风排口 + 出风温度数显 + 稳定桌面底座 + 无级旋钮 + 底座后出 Type-C。选一个方向（或组合），我出定稿图+结构拆分图并重建 3D。</div>
+  <div id="concepts"></div>
+  <div id="exploded-wrap" style="display:none;">
+    <h2>结构拆分效果图（爆炸视图）</h2>
+    <div class="sub">轴向爆炸：前网罩 → 前壳 → 扇叶/电机 → TEC 制冷片 → 冷端鳍片 → 电池 → PCB → 后壳 → 底座（摇头电机）→ 防滑垫/Type-C。</div>
+    <div class="concept" style="max-width:760px;"><img id="exploded-img" src="" alt="结构拆分效果图"></div>
+  </div>
+</section>
+
+<section class="tab" id="tab-cad">
+  <div id="app3d">
+    <div id="canvas">
+      <div id="hint">🖱 拖拽旋转 · 滚轮缩放 · 点击部件查看厂商标注</div>
+    </div>
+    <div id="sidebar">
+      <div id="head">
+        <h1>③ 3D 拆分 — 部件与供应链</h1>
+        <div class="sub" id="subtitle">模型加载中…<br>⚠️ 当前为旧塔形占位模型——选定设计方向（②）后将按新方向重建。</div>
+      </div>
+      <div id="listwrap"></div>
+      <div id="detail">
+        <h2 id="d-title">未选择部件</h2>
+        <div id="d-body" class="empty">点击模型部件或左侧列表查看明细</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script type="module">
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+const COMPETITORS = window.__COMPETITORS__;
+const INSIGHTS = window.__INSIGHTS__;
+const CONCEPTS = window.__CONCEPTS__;
+const partsData = window.__PARTS_DATA__;
+window.__dash = { modelLoaded:false, parts:[], partCount:0, errors:[], selected:null };
+const dash = window.__dash;
+
+// ---------- Tab 切换 ----------
+document.querySelectorAll('#tabs button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('#tabs button').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('section.tab').forEach(s => s.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+    if (btn.dataset.tab === 'cad') setTimeout(() => resize3d(), 50);
+  });
+});
+
+// ---------- ① 竞品分析 ----------
+function esc(s){ return String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+function renderInsights() {
+  const el = document.getElementById('insights');
+  if (!INSIGHTS.length) { el.innerHTML = '<div class="sub">调研进行中，数据回填后显示。</div>'; return; }
+  el.innerHTML = INSIGHTS.map(ins => `
+    <div class="insight"><h3>${esc(ins.theme)}</h3><ul>${ins.points.map(p => `<li>${p}</li>`).join('')}</ul></div>`).join('');
+}
+function renderMarket() {
+  const grid = document.getElementById('grid');
+  document.getElementById('market-sub').textContent =
+    `数据：ego-browser 实时抓取（销量排序）+ 详情页参数 + 评价差评原文。更新时间 ${esc((COMPETITORS.updated||'—'))}，共 ${(COMPETITORS.items||[]).length} 款。`;
+  grid.innerHTML = (COMPETITORS.items || []).map(c => `
+    <div class="card">
+      ${c.img ? `<div style="display:flex;gap:10px;align-items:flex-start;">
+        <img src="${c.img}" alt="" style="width:96px;height:96px;object-fit:cover;border-radius:8px;border:1px solid #e5e7eb;flex-shrink:0;">
+        <div style="flex:1;min-width:0;">
+      ` : ''}
+      <div class="top">
+        <span class="name">${esc(c.name)}</span>
+        <span class="price">¥${esc(c.price)}</span>
+      </div>
+      <div class="meta">${esc(c.brand || '')} · ${esc(c.shop || '')} · 销量 ${esc(c.sales || '—')}${c.link ? ` · <a href="${esc(c.link)}" target="_blank">淘宝→</a>` : ''}</div>
+      <div>${(c.features||[]).map(f => `<span class="chip">${esc(f)}</span>`).join('')}<span class="chip cat">${esc(c.category||'')}</span>${c.form ? `<span class="chip cat" style="background:#e0f2fe;border-color:#bae0f5;color:#075985;">形态：${esc(c.form)}</span>` : ''}</div>
+      <div class="func">${(c.functional||'').split('\n').map(esc).join('<br>')}</div>
+      ${(c.reviews_bad||[]).length ? `<div class="rv"><span class="b">差评摘录：</span><ul>${c.reviews_bad.slice(0,4).map(r => `<li class="b">${esc(r)}</li>`).join('')}</ul></div>` : ''}
+      ${(c.reviews_good||[]).length ? `<div class="rv"><span class="g">好评要点：</span><ul>${c.reviews_good.slice(0,2).map(r => `<li class="g">${esc(r)}</li>`).join('')}</ul></div>` : ''}
+      ${c.img ? '</div></div>' : ''}
+    </div>`).join('');
+}
+renderInsights();
+renderMarket();
+
+// ---------- ② 设计概念图 ----------
+document.getElementById('concepts').innerHTML = CONCEPTS.map(c =>
+  `<div class="concept"><img src="${c.src}" alt="${esc(c.title)}"><div class="cap">${esc(c.title)}</div></div>`).join('');
+if (window.__EXPLODED__) {
+  document.getElementById('exploded-wrap').style.display = '';
+  document.getElementById('exploded-img').src = window.__EXPLODED__;
+}
+
+// ---------- ③ 3D 拆分 ----------
+const wrap = document.getElementById('canvas');
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0xf4f5f7);
+const camera = new THREE.PerspectiveCamera(40, 1, 0.01, 20);
+camera.position.set(0.9, 0.8, 1.4);
+const renderer = new THREE.WebGLRenderer({ antialias:true });
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+wrap.appendChild(renderer.domElement);
+function resize3d() {
+  renderer.setSize(wrap.clientWidth, wrap.clientHeight);
+  camera.aspect = wrap.clientWidth / wrap.clientHeight;
+  camera.updateProjectionMatrix();
+}
+resize3d();
+window.addEventListener('resize', resize3d);
+
+scene.add(new THREE.HemisphereLight(0xffffff, 0xdfe3e8, 1.1));
+const key = new THREE.DirectionalLight(0xffffff, 1.6);
+key.position.set(2, 3, 2); key.castShadow = true;
+scene.add(key);
+const fill = new THREE.DirectionalLight(0xffffff, 0.5);
+fill.position.set(-1.5, 0.5, -1);
+scene.add(fill);
+const ground = new THREE.Mesh(new THREE.PlaneGeometry(4, 4), new THREE.ShadowMaterial({ opacity:0.18 }));
+ground.rotation.x = -Math.PI/2; ground.position.y = -0.9; ground.receiveShadow = true;
+scene.add(ground);
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
+controls.target.set(0, 0.05, 0);
+
+function baseOf(name) { return name.replace(/_[a-z]+_\d+$/, '').replace(/_\d+$/, ''); }
+let partNodes = [];
+const savedMats = new Map();
+function findMeta(nodeName) {
+  const b = baseOf(nodeName);
+  if (partsData[b]) return { base:b, meta:partsData[b] };
+  for (const k of Object.keys(partsData)) {
+    if (k.startsWith('_')) continue;
+    if (nodeName.startsWith(k)) return { base:k, meta:partsData[k] };
+  }
+  return null;
+}
+function collectParts(root) {
+  const seen = new Set();
+  root.traverse(n => {
+    if (!n.isMesh) return;
+    const hit = findMeta(n.name);
+    if (hit && !seen.has(hit.base)) { seen.add(hit.base); partNodes.push({ node:n, base:hit.base, meta:hit.meta }); }
+  });
+}
+function setHighlight(target, on) {
+  for (const p of partNodes.filter(p => p.base === target.base)) {
+    p.node.traverse(m => {
+      if (!m.isMesh) return;
+      if (on) {
+        if (!savedMats.has(p.node.uuid)) savedMats.set(p.node.uuid, []);
+        savedMats.get(p.node.uuid).push({ mesh:m, material:m.material });
+        const mat = m.material.clone();
+        mat.emissive = new THREE.Color(0x16a085); mat.emissiveIntensity = 0.35;
+        m.material = mat;
+      } else if (savedMats.has(p.node.uuid)) {
+        for (const s of savedMats.get(p.node.uuid)) s.mesh.material = s.material;
+        savedMats.delete(p.node.uuid);
+      }
+    });
+  }
+}
+const listwrap = document.getElementById('listwrap');
+const dTitle = document.getElementById('d-title');
+const dBody = document.getElementById('d-body');
+const BADGE = { verified:'✔ 1688实测', candidate:'◐ 搜索页候选', 'to-source':'○ 待代采' };
+const BCLS = { verified:'b-verified', candidate:'b-candidate', 'to-source':'b-to-source' };
+function select(part) {
+  dash.selected = part.base;
+  if (dash.__last) setHighlight(dash.__last, false);
+  if (!part.internal) { setHighlight(part, true); dash.__last = part; } else { dash.__last = null; }
+  document.querySelectorAll('.part').forEach(el => el.classList.toggle('active', el.dataset.base === part.base));
+  const m = part.meta;
+  dTitle.textContent = m.label + '（' + part.base + '）';
+  dBody.innerHTML = `
+    <div class="row"><b>工艺</b>${esc(m.process)}</div>
+    <div class="row"><b>厂商</b>${esc(m.factory)}</div>
+    <div class="row"><b>联系</b>${esc(m.contact)}</div>
+    <div class="row"><b>单价</b>${esc(m.price)}　<b>MOQ</b>${esc(m.moq)}</div>
+    <div class="row"><b>状态</b><span class="badge ${BCLS[m.status]||''}">${BADGE[m.status]||m.status}</span></div>
+    ${m.link ? `<div class="row"><a href="${esc(m.link)}" target="_blank">打开 1688 店铺/商品 →</a></div>` : ''}`;
+}
+function renderList() {
+  listwrap.innerHTML = '';
+  const modelBases = new Set(partNodes.map(p => p.base));
+  const all = [...partNodes];
+  for (const [k, m] of Object.entries(partsData)) {
+    if (k.startsWith('_')) continue;
+    if (!modelBases.has(k)) all.push({ base:k, meta:m, internal:true });
+  }
+  all.forEach(p => {
+    const el = document.createElement('div');
+    el.className = 'part';
+    el.dataset.base = p.base;
+    el.innerHTML = `<div class="t">${esc(p.meta.label)}${p.internal ? ' <span style="color:#9ca3af;font-size:11px">(内部件)</span>' : ''}<span class="badge ${BCLS[p.meta.status]||''}">${BADGE[p.meta.status]||p.meta.status}</span></div>
+      <div class="p">${esc(p.meta.process)}</div>
+      <div class="f"><b>${esc(p.meta.factory)}</b> · ${esc(p.meta.price)}</div>`;
+    el.addEventListener('click', () => select(p));
+    listwrap.appendChild(el);
+  });
+  dash.partCount = all.length;
+}
+const loader = new GLTFLoader();
+loader.load(window.__GLB_DATA_URI__, gltf => {
+  const model = gltf.scene;
+  const box = new THREE.Box3().setFromObject(model);
+  const size = box.getSize(new THREE.Vector3());
+  const center = box.getCenter(new THREE.Vector3());
+  model.scale.setScalar(1.6 / Math.max(size.x, size.y, size.z));
+  model.position.sub(center.multiplyScalar(model.scale.x));
+  model.traverse(n => { if (n.isMesh) { n.castShadow = true; n.receiveShadow = true; } });
+  scene.add(model);
+  collectParts(model);
+  renderList();
+  dash.modelLoaded = true;
+  dash.parts = partNodes.map(p => p.base);
+  document.getElementById('subtitle').innerHTML =
+    `已加载模型部件 ${partNodes.length} 个 + 内部件标注。<br>数据源：dashboard/parts.json ← research/1688_factories.md。`;
+}, undefined, err => { dash.errors.push(String(err)); });
+
+const raycaster = new THREE.Raycaster();
+const pointer = new THREE.Vector2();
+renderer.domElement.addEventListener('pointerdown', e => {
+  pointer.x = (e.clientX / renderer.domElement.clientWidth) * 2 - 1;
+  pointer.y = -(e.clientY / renderer.domElement.clientHeight) * 2 + 1;
+  raycaster.setFromCamera(pointer, camera);
+  const hits = raycaster.intersectObjects(partNodes.map(p => p.node), true);
+  if (hits.length) {
+    let obj = hits[0].object, chain = [];
+    while (obj && chain.length < 6) { chain.push(obj.name); obj = obj.parent; }
+    for (const name of chain) {
+      const p = partNodes.find(x => name === x.node.name || findMeta(name)?.base === x.base);
+      if (p) { select(p); return; }
+    }
+  }
+});
+function animate() { requestAnimationFrame(animate); controls.update(); renderer.render(scene, camera); }
+animate();
+</script>
+</body>
+</html>

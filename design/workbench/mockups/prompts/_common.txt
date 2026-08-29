@@ -1,0 +1,15 @@
+High-fidelity UI design mockup of a desktop web application, engineering workbench dashboard UI design mockup, desktop web, 1440x900 pixels, full-viewport flat frontal screenshot, pixel-crisp interface design. This is a UI design comp, NOT an illustration, NOT a photo, no browser chrome, no device frame.
+
+Product: "LiteCool S1 Workbench" — an internal read-only engineering acceptance workbench for a small desktop cooling device (a desk appliance that blows cooled air). This screen is the FORM COMPARISON view (view 3 of 6).
+
+Layout requirements (ALL must be visible in the 1440x900 viewport):
+
+1. Sticky top bar, max 56px tall, full width. LEFT: product name "LiteCool S1 Workbench" + data timestamp "data 2026-08-29 14:32". CENTER: ONE segmented control navigation with six segments: Pipeline / Competitors / Forms / 3D & Supply / Patents / Decisions — the "Forms" segment is active. RIGHT: a small semantic color legend: green dot "Verified", yellow dot "Pending", red dot "Risk".
+
+2. One single-line banner directly under the top bar: exactly one factual conclusion + one link, text: "Form A selected — D-2026-08-29-01 · 2 candidates pending review →". One line only, no paragraph, no text wall.
+
+3. Main content: THREE form-factor comparison cards side by side (Form A, Form B, Form D), all three fully visible inside this one viewport. Each card contains: (a) a large studio product render of a small desktop cooling device as the dominant hero image — Form A looks like a miniature wall-mounted air-conditioner scaled to a desk (horizontal rounded box, big front air outlet with louvers, small temperature display), Form B looks like a retro 1960s radio (rounded box, full metal mesh front, one big top knob, cream white + walnut), Form D is a slim vertical tower fan — the hero imagery is the single visual anchor of the page; (b) a small segmented control on each card to switch media layers: "Render | 5 views | Concept"; (c) form name + one-line claim: Form A "Desktop AC — reads as cooling at a glance", Form B "Retro Radio — appliance warmth", Form D "Tower — smallest footprint"; (d) key specs in medium type: dimensions in mm, materials; (e) ONE single-line star rating row condensing six dimensions (Readability, Differentiation, Patent risk, Cost, Price fit, Architecture) as compact star glyphs in one row; (f) a status badge: Form A = green "Selected", Form B = yellow "Pending review", Form D = yellow "Candidate".
+
+4. Bottom of viewport: one collapsed details row labeled "Exploration — Forms W1 / W2" with small named-placeholder text "W1 GLB pending — S6 modeling in progress".
+
+Information hierarchy discipline: claim text large, key specs medium, notes and data-source small and de-emphasized — no uniform font sizes, no text walls, long content hidden in collapsed rows. Semantic colors used strictly and sparingly: green = verified/measured, yellow = candidate/pending, red = risk/blocked. Tone: "quiet operations" — factual labels only, no marketing words, no exclamation marks. All text must be short, real, legible UI labels in English; avoid long paragraphs and avoid garbled pseudo-text walls.

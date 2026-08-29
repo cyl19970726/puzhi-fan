@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LiteCool S1 Workbench — Forms · 方向丙 文档排印</title>
+<style>
+  :root{
+    --bg:#f7f7f5;
+    --paper:#ffffff;
+    --side:#f1f1ef;
+    --ink:#37352f;
+    --ink-2:#73726c;
+    --ink-3:#a6a49d;
+    --hair:#e3e2de;
+    --accent:#2f6b4f;
+    --ok:#1f7a45;
+    --warn:#a86b00;
+    --risk:#c1352b;
+    --sans:-apple-system,"SF Pro Text","Inter","Helvetica Neue","PingFang SC",sans-serif;
+    --serif:"Songti SC","Source Serif 4",Georgia,"Noto Serif SC",serif;
+    --mono:ui-monospace,"SF Mono",Menlo,monospace;
+    --r:4px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased}
+  a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(47,107,79,.35)}
+
+  /* ── top bar ─────────────────────────── */
+  .topbar{position:sticky;top:0;z-index:10;height:52px;display:flex;align-items:center;justify-content:space-between;
+    padding:0 24px;background:var(--paper);border-bottom:1px solid var(--hair)}
+  .brand{display:flex;align-items:baseline;gap:12px;min-width:290px}
+  .brand .name{font-size:14px;font-weight:600}
+  .brand .ts{font-size:11px;color:var(--ink-3);font-family:var(--mono)}
+  .seg{display:flex;border:1px solid var(--hair);border-radius:var(--r);overflow:hidden}
+  .seg button{font-family:var(--sans);font-size:12px;color:var(--ink-2);background:var(--paper);border:0;border-right:1px solid var(--hair);padding:6px 13px;cursor:default;white-space:nowrap}
+  .seg button:last-child{border-right:0}
+  .seg button.on{background:var(--ink);color:#fff;font-weight:500}
+  .legend{display:flex;gap:14px;min-width:290px;justify-content:flex-end;font-size:11px;color:var(--ink-2)}
+  .legend span{display:flex;align-items:center;gap:5px}
+  .dot{width:7px;height:7px;border-radius:50%;display:inline-block}
+  .dot.g{background:var(--ok)}.dot.y{background:var(--warn)}.dot.r{background:var(--risk)}
+
+  /* ── shell ───────────────────────────── */
+  .shell{display:flex;max-width:1440px;margin:0 auto;align-items:flex-start}
+
+  /* sidebar = page TOC (六视图导航在顶栏，唯一) */
+  .side{position:sticky;top:52px;width:216px;flex:none;background:var(--side);border-right:1px solid var(--hair);
+    min-height:calc(100vh - 52px);padding:18px 12px;font-size:12.5px}
+  .side .grp{font-size:10.5px;letter-spacing:.08em;color:var(--ink-3);text-transform:uppercase;padding:10px 8px 5px;font-family:var(--mono)}
+  .side a{display:block;border:0;color:var(--ink-2);padding:4px 8px;border-radius:var(--r)}
+  .side a.here{color:var(--ink);background:#e7e7e3;font-weight:500}
+  .side .kv{padding:14px 8px 0;font-family:var(--mono);font-size:10.5px;color:var(--ink-3);line-height:1.8}
+
+  /* document column */
+  .doc{flex:1;padding:0 0 40px;min-width:0}
+  .page{max-width:1010px;margin:24px auto 0;background:var(--paper);border:1px solid var(--hair);padding:44px 56px 36px}
+
+  .banner{display:flex;align-items:center;gap:9px;font-size:12.5px;color:var(--ink-2);
+    border-left:3px solid var(--ok);background:#f4f8f5;padding:9px 14px;margin-bottom:30px}
+  .banner a{font-size:12.5px}
+
+  .doc-title{font-family:var(--serif);font-size:30px;font-weight:700;letter-spacing:.01em;margin-bottom:4px}
+  .doc-sub{font-size:12px;color:var(--ink-3);font-family:var(--mono);margin-bottom:8px}
+  hr.rule{border:0;border-top:1px solid var(--hair);margin:18px 0 26px}
+
+  h2.sec{font-family:var(--serif);font-size:18px;font-weight:700;margin:26px 0 14px}
+  h2.sec .no{font-family:var(--mono);font-size:12px;color:var(--ink-3);font-weight:400;margin-right:10px}
+
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .card{border:1px solid var(--hair);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;background:var(--paper)}
+  .card.sel{box-shadow:inset 0 0 0 1px var(--ok)}
+  .hero{position:relative;border-bottom:1px solid var(--hair);background:#fafaf9}
+  .hero img{display:block;width:100%;height:210px;object-fit:cover}
+  .hero .media{position:absolute;left:10px;bottom:10px;display:flex;background:rgba(255,255,255,.92);border:1px solid var(--hair);border-radius:var(--r);overflow:hidden}
+  .hero .media button{font-family:var(--mono);font-size:10px;color:var(--ink-3);background:transparent;border:0;border-right:1px solid var(--hair);padding:3px 8px}
+  .hero .media button:last-child{border-right:0}
+  .hero .media button.on{background:var(--ink);color:#fff}
+  .body{padding:14px 16px 12px;display:flex;flex-direction:column;gap:9px;flex:1}
+  .title-row{display:flex;align-items:center;justify-content:space-between;gap:8px}
+  .fname{font-family:var(--serif);font-size:16.5px;font-weight:700}
+  .fname .fid{font-family:var(--mono);font-size:11px;color:var(--ink-3);font-weight:400;margin-right:7px}
+  .badge{font-size:10.5px;font-weight:600;padding:2px 8px;border-radius:99px;white-space:nowrap}
+  .badge.ok{color:var(--ok);background:rgba(31,122,69,.09)}
+  .badge.warn{color:var(--warn);background:rgba(168,107,0,.09)}
+  .claim{font-size:13.5px;line-height:1.6;color:var(--ink)}
+  .specs{font-size:11.5px;color:var(--ink-2)}
+
+  table.scores{width:100%;border-collapse:collapse;font-size:11px;margin-top:2px}
+  table.scores th,table.scores td{border:1px solid var(--hair);padding:3px 2px;text-align:center;font-weight:400}
+  table.scores th{background:#fafaf9;color:var(--ink-2);font-size:10px}
+  table.scores td{font-family:var(--mono);font-size:9.5px;letter-spacing:.5px;color:var(--ink)}
+  table.scores td .off{color:#cfcec8}
+  table.scores caption{caption-side:top;text-align:left;font-size:10px;color:var(--ink-3);font-family:var(--mono);padding-bottom:4px}
+
+  .meta{display:flex;justify-content:space-between;align-items:center;font-size:10px;color:var(--ink-3);margin-top:auto;font-family:var(--mono)}
+
+  details.expl{margin-top:22px;border:1px solid var(--hair);border-radius:var(--r);background:var(--paper)}
+  details.expl summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:10px;padding:11px 16px;font-size:13px;font-weight:500}
+  details.expl summary::-webkit-details-marker{display:none}
+  details.expl summary .chev{font-family:var(--mono);color:var(--ink-3);font-size:11px}
+  details.expl summary .ph{font-size:11.5px;color:var(--warn);font-weight:400;font-family:var(--mono)}
+  .expl-body{border-top:1px solid var(--hair);padding:12px 16px;display:flex;gap:32px;font-size:12px;color:var(--ink-2)}
+  .expl-body .w b{color:var(--ink);font-weight:600}
+  .expl-body .w .st{color:var(--warn);font-family:var(--mono);font-size:11px}
+
+  .foot{max-width:1010px;margin:14px auto 0;padding:0 56px;font-family:var(--mono);font-size:10.5px;color:var(--ink-3)}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="name">LiteCool S1 Workbench</span>
+    <span class="ts">data 2026-08-29 14:32</span>
+  </div>
+  <nav class="seg" aria-label="views">
+    <button>Pipeline</button><button>Competitors</button><button class="on">Forms</button><button>3D &amp; Supply</button><button>Patents</button><button>Decisions</button>
+  </nav>
+  <div class="legend">
+    <span><i class="dot g"></i>Verified</span>
+    <span><i class="dot y"></i>Pending</span>
+    <span><i class="dot r"></i>Risk</span>
+  </div>
+</header>
+
+<div class="shell">
+  <aside class="side">
+    <div class="grp">本页目录</div>
+    <a class="here" href="#">§ 结论</a>
+    <a href="#">§1 形态 A · 桌面挂机</a>
+    <a href="#">§2 形态 B · 复古收音机</a>
+    <a href="#">§3 形态 D · 塔·认真版</a>
+    <a href="#">§4 探索 — W1 / W2</a>
+    <a href="#">§5 数据来源</a>
+    <div class="kv">view ③ / 6<br>forms: 5 (3 + 2)<br>selected: A</div>
+  </aside>
+
+  <div class="doc">
+    <div class="page">
+
+      <div class="banner">
+        <span>§ 结论 — Form A selected — D-2026-08-29-01 · 2 candidates pending review</span>
+        <a href="#">Decisions →</a>
+      </div>
+
+      <div class="doc-title">形态对比</div>
+      <div class="doc-sub">Form comparison · A / B / D evaluated · W1 / W2 exploring</div>
+      <hr class="rule">
+
+      <section class="cards">
+
+        <!-- Form A -->
+        <article class="card sel" id="fa">
+          <div class="hero">
+            <img src="/concepts_v2/A_1.png" alt="Form A concept render">
+            <div class="media"><button>Render</button><button>5 views</button><button class="on">Concept</button></div>
+          </div>
+          <div class="body">
+            <div class="title-row">
+              <div class="fname"><span class="fid">§1 A</span>桌面挂机</div>
+              <span class="badge ok">已选定</span>
+            </div>
+            <p class="claim">把壁挂空调挂机的视觉语言缩放到桌面——看到它就像看到一台空调。</p>
+            <p class="specs">220×140×110mm · 导风板 + 出风温度数显 · 侧后热排格栅 · 配重滑板座</p>
+            <table class="scores">
+              <caption>六维评分（★/5）</caption>
+              <tr><th>可读</th><th>差异</th><th>专利</th><th>代价</th><th>价位</th><th>架构</th></tr>
+              <tr>
+                <td title="制冷可读性 5/5 — 三重空调符号">★★★★★</td>
+                <td title="差异化 5/5 — 品类零占位">★★★★★</td>
+                <td title="专利风险 3/5 — 中（已检索）">★★★<span class="off">★★</span></td>
+                <td title="工程代价 3/5 — 中">★★★<span class="off">★★</span></td>
+                <td title="价位匹配 5/5 — ¥119–159">★★★★★</td>
+                <td title="架构影响 4/5 — 层叠堆叠">★★★★<span class="off">★</span></td>
+              </tr>
+            </table>
+            <div class="meta">
+              <span>专利 中 · 已检索</span>
+              <span>forms.json · A_1.png</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Form B -->
+        <article class="card" id="fb">
+          <div class="hero">
+            <img src="/concepts_v2/B_cream.png" alt="Form B concept render">
+            <div class="media"><button>Render</button><button>5 views</button><button class="on">Concept</button></div>
+          </div>
+          <div class="body">
+            <div class="title-row">
+              <div class="fname"><span class="fid">§2 B</span>复古收音机</div>
+              <span class="badge warn">待验收</span>
+            </div>
+            <p class="claim">用 60 年代收音机/音箱的情感语言做「有家电质感的降温设备」。</p>
+            <p class="specs">200×150×120mm · 整面金属细网罩 81% · 顶部单旋钮 · 奶油白+胡桃木 / 墨绿+黄铜</p>
+            <table class="scores">
+              <caption>六维评分（★/5）</caption>
+              <tr><th>可读</th><th>差异</th><th>专利</th><th>代价</th><th>价位</th><th>架构</th></tr>
+              <tr>
+                <td title="制冷可读性 3/5 — 靠数显与顶部热排">★★★<span class="off">★★</span></td>
+                <td title="差异化 4/5 — 情感差异化">★★★★<span class="off">★</span></td>
+                <td title="专利风险 4/5 — 低–中（已检索）">★★★★<span class="off">★</span></td>
+                <td title="工程代价 5/5 — 低：架构零改动">★★★★★</td>
+                <td title="价位匹配 4/5 — ¥119–159">★★★★<span class="off">★</span></td>
+                <td title="架构影响 5/5 — 零改动">★★★★★</td>
+              </tr>
+            </table>
+            <div class="meta">
+              <span>专利 低–中 · 已检索</span>
+              <span>forms.json · B_cream.png</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Form D -->
+        <article class="card" id="fd">
+          <div class="hero">
+            <img src="/concepts_v2/D_1.png" alt="Form D concept render">
+            <div class="media"><button>Render</button><button>5 views</button><button class="on">Concept</button></div>
+          </div>
+          <div class="body">
+            <div class="title-row">
+              <div class="fname"><span class="fid">§3 D</span>塔·认真版</div>
+              <span class="badge warn">待验收</span>
+            </div>
+            <p class="claim">跟随品类验证过的塔形，但把竞品偷懒的三件事做穿：底座、数显、热排。</p>
+            <p class="specs">Ø90×230mm · squircle 变截面 loft · 横向百叶×10 · 35° 斜面数显</p>
+            <table class="scores">
+              <caption>六维评分（★/5）</caption>
+              <tr><th>可读</th><th>差异</th><th>专利</th><th>代价</th><th>价位</th><th>架构</th></tr>
+              <tr>
+                <td title="制冷可读性 3/5 — 靠数显+热排">★★★<span class="off">★★</span></td>
+                <td title="差异化 2/5 — 低：仅细节差异">★★<span class="off">★★★</span></td>
+                <td title="专利风险 2/5 — 中–高（已检索）">★★<span class="off">★★★</span></td>
+                <td title="工程代价 5/5 — 零：架构原生">★★★★★</td>
+                <td title="价位匹配 3/5 — ¥99–129">★★★<span class="off">★★</span></td>
+                <td title="架构影响 5/5 — 零改动">★★★★★</td>
+              </tr>
+            </table>
+            <div class="meta">
+              <span>专利 中–高 · 已检索</span>
+              <span>forms.json · D_1.png</span>
+            </div>
+          </div>
+        </article>
+
+      </section>
+
+      <h2 class="sec"><span class="no">§4</span>探索 — Forms W1 / W2</h2>
+      <details class="expl">
+        <summary>
+          <span class="chev">▸</span>
+          <span>Exploration — Forms W1 / W2</span>
+          <span class="ph">W1/W2 GLB 待产出 — S6 建模中</span>
+        </summary>
+        <div class="expl-body">
+          <div class="w"><b>W1 氛围灯融合</b> — 情绪差异化路线 · 工程未评估（光路+风道共存待验证） · <span class="st">GLB 待产出 → S6 建模</span></div>
+          <div class="w"><b>W2 精工铝 unibody</b> — 阳极氧化铝横柱 · 工程可行性中等（BOM 重估） · <span class="st">GLB 待产出 → S6 建模</span></div>
+        </div>
+      </details>
+
+      <h2 class="sec"><span class="no">§5</span>数据来源</h2>
+      <p style="font-size:12px;color:var(--ink-2);font-family:var(--mono)">data/forms.json · design/form-directions.md §2–§7 · research/patent_avoidance.md — updated 2026-08-29</p>
+
+    </div>
+    <footer class="foot">LiteCool S1 Workbench — 只读工程验收台 · quiet operations</footer>
+  </div>
+</div>
+
+</body>
+</html>

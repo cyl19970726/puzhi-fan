@@ -1,0 +1,70 @@
+/* components.css —— §4 registry 组件样式。只许引用 tokens 变量（var(--lc-*)），禁止硬编码色值/字号。 */
+
+/* card / badge / ph 空态 */
+.card { background: var(--lc-card); border: 1px solid var(--lc-line); border-radius: var(--lc-r-card);
+        padding: 14px 16px; box-shadow: var(--lc-shadow); }
+.badge { display: inline-block; font-size: var(--lc-fs-xs); font-weight: 500; padding: 2px 9px;
+         border-radius: 999px; white-space: nowrap; letter-spacing: .01em; }
+.b-ok { background: var(--lc-ok-bg); color: var(--lc-ok-ink); }
+.b-warn { background: var(--lc-warn-bg); color: var(--lc-warn-ink); }
+.b-risk { background: var(--lc-risk-bg); color: var(--lc-risk-ink); }
+.b-todo { background: var(--lc-todo-bg); color: var(--lc-todo-ink); }
+.ph { display: flex; align-items: center; justify-content: center; text-align: center;
+      color: var(--lc-faint); font-size: var(--lc-fs-sm); line-height: 1.8; padding: 12px; min-height: 120px; }
+
+/* ── 装配体查看器（assembly-viewer.js）class 钩子与旧版一致 ── */
+.asm { display: grid; grid-template-columns: minmax(0,1fr) var(--lc-asm-side-w); gap: 14px; margin-bottom: 16px; }
+.asm-stage { padding: 0; overflow: hidden; display: flex; flex-direction: column; }
+.asm-view { width: 100%; height: var(--lc-asm-view-h); background: var(--lc-asm-view-bg);
+            touch-action: none; position: relative; }
+.asm-view .asm-labels { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+.asm-mode { border: 1px solid var(--lc-line2); background: var(--lc-card); border-radius: 999px;
+            font-size: var(--lc-fs-xs); font-weight: 600; padding: 3px 12px; cursor: pointer;
+            color: var(--lc-muted); transition: background .15s, color .15s; white-space: nowrap; }
+.asm-mode:hover { color: var(--lc-ink); }
+.asm-mode.active { background: var(--lc-ink); border-color: var(--lc-ink); color: var(--lc-card); }
+.asm-label { display: flex; align-items: center; gap: 5px; background: rgba(255,255,255,.92);
+             border: 1px solid rgba(0,0,0,.14); border-radius: 999px; padding: 2px 9px 2px 6px;
+             font-size: var(--lc-fs-xs); font-weight: 600; color: var(--lc-ink); white-space: nowrap;
+             box-shadow: 0 1px 4px rgba(0,0,0,.12); pointer-events: none;
+             font-family: -apple-system, "PingFang SC", "Hiragino Sans GB", sans-serif; }
+.asm-label .dot { width: 8px; height: 8px; border-radius: 50%; flex: none; }
+.asm-bar { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-top: 1px solid var(--lc-line); }
+.asm-bar input[type=range] { flex: 1; accent-color: var(--lc-link); height: 4px; }
+.asm-bar-label { font-size: var(--lc-fs-xs); color: var(--lc-muted); font-weight: 600; white-space: nowrap; }
+.asm-hint { font-size: 10.5px; color: var(--lc-faint); margin-left: auto; white-space: nowrap; }
+.asm-side { display: flex; flex-direction: column; gap: 12px; min-height: 0; }
+.asm-parts { flex: 1; overflow: auto; max-height: 560px; padding: 12px 14px; }
+.asm-parts h3 { font-size: var(--lc-fs-md); font-weight: 650; margin-bottom: 6px; }
+.asm-mod { font-size: var(--lc-fs-xs); font-weight: 700; color: var(--lc-muted); margin: 9px 0 3px; letter-spacing: .03em; }
+.asm-part { display: block; width: 100%; text-align: left; border: 0; background: transparent;
+            font-size: var(--lc-fs-sm); padding: 3px 8px; border-radius: 7px; cursor: pointer;
+            color: var(--lc-ink); line-height: 1.5; }
+.asm-part:hover { background: rgba(0,0,0,.05); }
+.asm-part.active { background: var(--lc-link); color: var(--lc-card); }
+.asm-part .pn { color: var(--lc-faint); font-size: var(--lc-fs-xxs); margin-left: 5px; font-family: ui-monospace, monospace; }
+.asm-part.active .pn { color: rgba(255,255,255,.75); }
+.asm-bom { font-size: var(--lc-fs-sm); line-height: 1.7; padding: 12px 14px; }
+.asm-bom h3 { font-size: var(--lc-fs-lg); font-weight: 650; margin-bottom: 4px; }
+.asm-bom h3 .pn { color: var(--lc-faint); font-size: var(--lc-fs-xxs); font-family: ui-monospace, monospace; }
+.asm-bom .fn { color: var(--lc-muted); font-size: var(--lc-fs-xs); margin-bottom: 6px; }
+.asm-bom .cand { border-top: 1px solid var(--lc-line); padding: 6px 0; }
+.asm-bom .cand .meta { color: var(--lc-muted); font-size: var(--lc-fs-xs); }
+.asm-bom .budget { margin-top: 6px; font-size: var(--lc-fs-xs); color: var(--lc-warn-ink);
+                   background: var(--lc-warn-bg); border-radius: 8px; padding: 5px 9px; }
+.asm-form-bar { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
+.asm-form-btn { border: 1px solid var(--lc-line2); background: var(--lc-card); border-radius: 999px;
+                font-size: var(--lc-fs-sm); font-weight: 600; padding: 5px 16px; cursor: pointer;
+                color: var(--lc-muted); transition: background .15s, color .15s; }
+.asm-form-btn:hover { color: var(--lc-ink); }
+.asm-form-btn.active { background: var(--lc-ink); border-color: var(--lc-ink); color: var(--lc-card); }
+.asm-form-btn .cnt { font-weight: 400; opacity: .65; margin-left: 3px; font-size: var(--lc-fs-xs); }
+.asm-form[hidden] { display: none; }
+.asm-info { margin: 10px 0 16px; }
+.asm-info a { display: inline-flex; align-items: center; gap: 12px; color: var(--lc-muted);
+              font-size: var(--lc-fs-xs); font-weight: 600; }
+.asm-info a:hover { color: var(--lc-link); }
+.asm-info img { width: 110px; border: 1px solid var(--lc-line); border-radius: 8px; background: var(--lc-bg); }
+
+/* ── GLB 查看器（glb-viewer.js）── */
+.glb-view { width: 100%; height: 100%; position: relative; }

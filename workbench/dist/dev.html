@@ -1,0 +1,49 @@
+<!doctype>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>dev · assembly-viewer 证明页（形态 A）</title>
+<link rel="stylesheet" href="../src/styles/tokens.css">
+<link rel="stylesheet" href="../src/styles/base.css">
+<link rel="stylesheet" href="../src/styles/components.css">
+<script>
+  // 验收钩子：ego-browser 读 window.__errs 判 console 无错
+  window.__errs = [];
+  addEventListener('error', e => window.__errs.push(String(e.message)));
+  addEventListener('unhandledrejection', e => window.__errs.push('rejection: ' + String(e.reason)));
+</script>
+<script type="importmap">
+{ "imports": {
+  "three": "../vendor/three/build/three.module.js",
+  "three/addons/": "../vendor/three/examples/jsm/"
+} }
+</script>
+</head>
+<body>
+<header style="padding:8px 28px;border-bottom:1px solid var(--lc-line)">
+  <b style="font-size:15px">Phase 0.5 证明页</b>
+  <span style="font-size:11px;color:var(--lc-faint)">assembly-viewer 组件 · 形态 A · 数据源 ../../cad + ../../data（只读）</span>
+</header>
+<main id="app" style="padding:14px 28px 48px;max-width:1440px;margin:0 auto"></main>
+<script type="module">
+  import { createAssemblyViewer } from '../src/components/assembly-viewer.js';
+  import { fetchJson } from '../src/state.js';
+
+  const labels = await fetchJson('../../cad/infographic/labels.json'); // keyLabels 单一事实源
+  const viewer = createAssemblyViewer(document.getElementById('app'), {
+    glbUrl: '../../cad/assembly_a_eng.glb',
+    partsJson: '../../cad/assembly_a_parts.json',
+    bomUrl: '../../data/bom.json',
+    keyLabels: (labels.a || []).map(row => row[0]),
+    name: 'A 桌面挂机',
+    infographic: {
+      src: '../../cad/infographic/LiteCool_S1_解构图鉴.png',
+      caption: '产品解构图鉴 · 形态 A（点击放大）',
+    },
+  });
+  viewer.init(); // 可见即加载（懒加载闸：clientWidth===0 时 init 为空操作）
+  window.__viewer = viewer; // 验收钩子：DOM/交互断言入口
+</script>
+</body>
+</html>

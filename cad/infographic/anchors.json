@@ -1,0 +1,116 @@
+{
+ "img_w": 1600,
+ "img_h": 1200,
+ "spread": 1.25,
+ "paste": null,
+ "anchors": {
+  "Knob": {
+   "px": 870.9,
+   "py": 266.1,
+   "module": "M3",
+   "label": "旋钮(100档FOC)"
+  },
+  "Body": {
+   "px": 815.2,
+   "py": 441.5,
+   "module": "M6",
+   "label": "后壳/主壳(2mm壁厚+1.5°拔模+真孔)"
+  },
+  "FrontPanel": {
+   "px": 621.2,
+   "py": 689.5,
+   "module": "M6",
+   "label": "前壳面板(2mm+分件线+出风/数显真孔)"
+  },
+  "M6_TwistLock": {
+   "px": 581.3,
+   "py": 662.9,
+   "module": "M6",
+   "label": "前壳旋扣×3(转15°卡入, IF-3)"
+  },
+  "M5_TEC": {
+   "px": 839.0,
+   "py": 641.7,
+   "module": "M5",
+   "label": "TEC 制冷片 40×40×3.8"
+  },
+  "M5_ColdFins": {
+   "px": 704.5,
+   "py": 574.2,
+   "module": "M5",
+   "label": "冷端铝鳍片组(风道沿Y)"
+  },
+  "M5_HotSink": {
+   "px": 937.7,
+   "py": 691.1,
+   "module": "M5",
+   "label": "热端散热器(鳍片通道朝右+Z)"
+  },
+  "M5_Separator": {
+   "px": 869.4,
+   "py": 708.8,
+   "module": "M5",
+   "label": "L形全风道中隔板(ADR-1,带EVA槽)"
+  },
+  "M5_EVA": {
+   "px": 869.7,
+   "py": 745.7,
+   "module": "M5",
+   "label": "EVA密封棉条×6(IF-2,3×1.5槽)"
+  },
+  "M4_FanFrame": {
+   "px": 685.7,
+   "py": 542.8,
+   "module": "M4",
+   "label": "风机框 Ø80"
+  },
+  "M2_Cell_B": {
+   "px": 600.5,
+   "py": 578.2,
+   "module": "M2",
+   "label": "18650 电芯 B"
+  },
+  "M3_PCB": {
+   "px": 897.6,
+   "py": 504.4,
+   "module": "M3",
+   "label": "主控 PCB(冷侧进风后方)"
+  },
+  "M1_Stepper": {
+   "px": 1056.5,
+   "py": 797.1,
+   "module": "M1",
+   "label": "28BYJ-48 步进电机(电机仓)"
+  },
+  "M1_Pinion": {
+   "px": 1088.7,
+   "py": 813.8,
+   "module": "M1",
+   "label": "小齿轮 m0.8 12T"
+  },
+  "Louver_1": {
+   "px": 547.6,
+   "py": 745.8,
+   "module": "M6",
+   "label": "导风板 2(端部扇齿轴)"
+  },
+  "M7_Module": {
+   "px": 750.0,
+   "py": 659.1,
+   "module": "M7",
+   "label": "数码管模组"
+  },
+  "Base": {
+   "px": 812.4,
+   "py": 790.2,
+   "module": "M1",
+   "label": "配重滑板底座(3×Ø2.5螺丝孔+沉孔)"
+  },
+  "M1_Bosses": {
+   "px": 814.7,
+   "py": 816.6,
+   "module": "M1",
+   "label": "底座螺丝柱×3(Ø2.5柱+Ø5沉孔)"
+  }
+ }
+}

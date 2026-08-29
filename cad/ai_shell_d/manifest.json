@@ -1,0 +1,19 @@
+{
+  "backend": "meshy",
+  "task_id": "01a04c38-77c4-7246-bf24-8d72d3a9c71f",
+  "image": "concepts_v2/D_1.png",
+  "params": {
+    "image_url": "<data uri 2000518 chars>",
+    "should_texture": true,
+    "enable_pbr": true,
+    "texture_resolution": "2k",
+    "topology": "triangle",
+    "origin_at": "bottom"
+  },
+  "consumed_credits": 30,
+  "balance_before": 845,
+  "balance_after": 815,
+  "polycount_reported": null,
+  "raw_glb": "raw/meshy_raw.glb",
+  "raw_glb_bytes": 79829204
+}

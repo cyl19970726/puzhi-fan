@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LiteCool S1 — 部件与供应链 Dashboard</title>
+<style>
+  :root { --bg:#f4f5f7; --card:#ffffff; --ink:#1f2430; --muted:#6b7280; --accent:#16a085; --warn:#d97706; --bad:#dc2626; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif; background:var(--bg); color:var(--ink); overflow:hidden; }
+  #app { display:flex; height:100vh; }
+  #canvas { flex:1; position:relative; }
+  #canvas canvas { display:block; }
+  #hint { position:absolute; left:16px; bottom:14px; font-size:12px; color:var(--muted); background:rgba(255,255,255,.85); padding:6px 10px; border-radius:8px; pointer-events:none; }
+  #sidebar { width:340px; background:var(--card); border-left:1px solid #e5e7eb; display:flex; flex-direction:column; }
+  #head { padding:16px; border-bottom:1px solid #e5e7eb; }
+  #head h1 { font-size:16px; margin-bottom:4px; }
+  #head .sub { font-size:12px; color:var(--muted); line-height:1.5; }
+  #listwrap { flex:1; overflow-y:auto; padding:10px; }
+  .part { border:1px solid #e5e7eb; border-radius:10px; padding:10px 12px; margin-bottom:8px; cursor:pointer; transition:border-color .15s, background .15s; }
+  .part:hover { border-color:#c7cdd6; }
+  .part.active { border-color:var(--accent); background:#f0faf7; }
+  .part .t { font-size:13px; font-weight:600; }
+  .part .p { font-size:12px; color:var(--muted); margin-top:3px; line-height:1.45; }
+  .part .f { font-size:12px; margin-top:4px; }
+  .part .f b { color:var(--ink); }
+  .badge { display:inline-block; font-size:11px; padding:1px 7px; border-radius:10px; margin-left:6px; vertical-align:1px; }
+  .b-verified { background:#dcfce7; color:#166534; }
+  .b-candidate { background:#fef3c7; color:#92400e; }
+  .b-to-source { background:#fee2e2; color:#991b1b; }
+  #detail { border-top:1px solid #e5e7eb; padding:12px 14px; font-size:12px; min-height:120px; }
+  #detail h2 { font-size:13px; margin-bottom:6px; }
+  #detail .row { margin:3px 0; }
+  #detail .row b { color:var(--muted); font-weight:500; margin-right:6px; }
+  #detail a { color:var(--accent); }
+  #detail .empty { color:var(--muted); }
+</style>
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+} }
+</script>
+</head>
+<body>
+<div id="app">
+  <div id="canvas">
+    <div id="hint">🖱 拖拽旋转 · 滚轮缩放 · 点击部件查看厂商标注</div>
+  </div>
+  <div id="sidebar">
+    <div id="head">
+      <h1>LiteCool S1 · 部件与供应链 Dashboard</h1>
+      <div class="sub" id="subtitle">模型加载中…<br>点击左侧部件或直接点击 3D 模型上的部件，查看对应 1688 厂商、联系方式和单价。</div>
+    </div>
+    <div id="listwrap"></div>
+    <div id="detail">
+      <h2 id="d-title">未选择部件</h2>
+      <div id="d-body" class="empty">点击模型部件或左侧列表查看明细</div>
+    </div>
+  </div>
+</div>
+<script type="module">
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+window.__dash = { modelLoaded:false, parts:[], partCount:0, errors:[], selected:null };
+const dash = window.__dash;
+
+// ---------- 场景 ----------
+const wrap = document.getElementById('canvas');
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0xf4f5f7);
+const camera = new THREE.PerspectiveCamera(40, wrap.clientWidth / wrap.clientHeight, 0.01, 20);
+camera.position.set(0.9, 0.8, 1.4);
+const renderer = new THREE.WebGLRenderer({ antialias:true });
+renderer.setSize(wrap.clientWidth, wrap.clientHeight);
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+wrap.appendChild(renderer.domElement);
+
+scene.add(new THREE.HemisphereLight(0xffffff, 0xdfe3e8, 1.1));
+const key = new THREE.DirectionalLight(0xffffff, 1.6);
+key.position.set(2, 3, 2); key.castShadow = true;
+scene.add(key);
+const fill = new THREE.DirectionalLight(0xffffff, 0.5);
+fill.position.set(-1.5, 0.5, -1);
+scene.add(fill);
+const ground = new THREE.Mesh(
+  new THREE.PlaneGeometry(4, 4),
+  new THREE.ShadowMaterial({ opacity:0.18 })
+);
+ground.rotation.x = -Math.PI/2; ground.position.y = -0.9; ground.receiveShadow = true;
+scene.add(ground);
+
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
+controls.target.set(0, 0.05, 0);
+
+// ---------- 部件匹配 ----------
+function baseOf(name) {
+  return name.replace(/_[a-z]+_\d+$/, '').replace(/_\d+$/, '');
+}
+const partsData = window.__PARTS_DATA__;
+const schema = partsData._schema || '';
+
+let partNodes = [];   // { node, base, meta }
+let savedMats = new Map(); // node.uuid -> [{mesh, material}]
+
+function findMeta(nodeName) {
+  const b = baseOf(nodeName);
+  if (partsData[b]) return { base:b, meta:partsData[b] };
+  for (const k of Object.keys(partsData)) {
+    if (k.startsWith('_')) continue;
+    if (nodeName.startsWith(k)) return { base:k, meta:partsData[k] };
+  }
+  return null;
+}
+
+function collectParts(root) {
+  const seen = new Set();
+  root.traverse(n => {
+    if (!n.isMesh) return;
+    const hit = findMeta(n.name);
+    const node = hit ? (n.parent && n.parent.name === n.name ? n.parent : n) : null;
+    if (hit && !seen.has(hit.base)) {
+      seen.add(hit.base);
+      partNodes.push({ node: n, base: hit.base, meta: hit.meta });
+    }
+  });
+}
+
+function setHighlight(target, on) {
+  const nodes = partNodes.filter(p => p.base === target.base);
+  for (const p of nodes) {
+    p.node.traverse(m => {
+      if (!m.isMesh) return;
+      if (on) {
+        if (!savedMats.has(p.node.uuid)) savedMats.set(p.node.uuid, []);
+        savedMats.get(p.node.uuid).push({ mesh: m, material: m.material });
+        const mat = m.material.clone();
+        mat.emissive = new THREE.Color(0x16a085);
+        mat.emissiveIntensity = 0.35;
+        m.material = mat;
+      } else if (savedMats.has(p.node.uuid)) {
+        for (const s of savedMats.get(p.node.uuid)) s.mesh.material = s.material;
+        savedMats.delete(p.node.uuid);
+      }
+    });
+  }
+}
+
+// ---------- UI ----------
+const listwrap = document.getElementById('listwrap');
+const dTitle = document.getElementById('d-title');
+const dBody = document.getElementById('d-body');
+const BADGE = { verified:'✔ 1688实测', candidate:'◐ 搜索页候选', 'to-source':'○ 待代采' };
+const BCLS = { verified:'b-verified', candidate:'b-candidate', 'to-source':'b-to-source' };
+
+function select(part) {
+  dash.selected = part.base;
+  if (dash.__last) setHighlight(dash.__last, false);
+  if (!part.internal) {
+    setHighlight(part, true);
+    dash.__last = part;
+  } else {
+    dash.__last = null;
+  }
+  document.querySelectorAll('.part').forEach(el =>
+    el.classList.toggle('active', el.dataset.base === part.base));
+  const m = part.meta;
+  dTitle.textContent = m.label + '（' + part.base + '）';
+  dBody.innerHTML = `
+    <div class="row"><b>工艺</b>${m.process}</div>
+    <div class="row"><b>厂商</b>${m.factory}</div>
+    <div class="row"><b>联系</b>${m.contact}</div>
+    <div class="row"><b>单价</b>${m.price}　<b>MOQ</b>${m.moq}</div>
+    <div class="row"><b>状态</b><span class="badge ${BCLS[m.status]||''}">${BADGE[m.status]||m.status}</span></div>
+    ${m.link ? `<div class="row"><a href="${m.link}" target="_blank">打开 1688 店铺/商品 →</a></div>` : ''}`;
+}
+
+function renderList() {
+  listwrap.innerHTML = '';
+  const modelBases = new Set(partNodes.map(p => p.base));
+  const all = [...partNodes];
+  // 内部件：parts.json 有标注但模型无网格（TEC/电池/PCB/摇头/彩盒/ODM）
+  for (const [k, m] of Object.entries(partsData)) {
+    if (k.startsWith('_')) continue;
+    if (!modelBases.has(k)) all.push({ base: k, meta: m, internal: true });
+  }
+  all.forEach(p => {
+    const el = document.createElement('div');
+    el.className = 'part';
+    el.dataset.base = p.base;
+    el.innerHTML = `<div class="t">${p.meta.label}${p.internal ? ' <span style="color:#9ca3af;font-size:11px">(内部件)</span>' : ''}<span class="badge ${BCLS[p.meta.status]||''}">${BADGE[p.meta.status]||p.meta.status}</span></div>
+      <div class="p">${p.meta.process}</div>
+      <div class="f"><b>${p.meta.factory}</b> · ${p.meta.price}</div>`;
+    el.addEventListener('click', () => select(p));
+    listwrap.appendChild(el);
+  });
+  dash.partCount = all.length;
+}
+
+// ---------- 加载模型 ----------
+const loader = new GLTFLoader();
+loader.load(window.__GLB_DATA_URI__, gltf => {
+  const model = gltf.scene;
+  const box = new THREE.Box3().setFromObject(model);
+  const size = box.getSize(new THREE.Vector3());
+  const center = box.getCenter(new THREE.Vector3());
+  const scale = 1.6 / Math.max(size.x, size.y, size.z);
+  model.scale.setScalar(scale);
+  model.position.sub(center.multiplyScalar(scale));
+  model.traverse(n => { if (n.isMesh) { n.castShadow = true; n.receiveShadow = true; } });
+  scene.add(model);
+
+  collectParts(model);
+  renderList();
+  dash.modelLoaded = true;
+  dash.parts = partNodes.map(p => p.base);
+  document.getElementById('subtitle').innerHTML =
+    `已加载模型部件 ${partNodes.length} 个 + 内部件标注（模型：LiteCool S1 桌面制冷风扇 v3.0）。<br>` +
+    `点击部件查看 1688 厂商、联系与单价（数据源：dashboard/parts.json ← research/1688_factories.md）。`;
+}, undefined, err => { dash.errors.push(String(err)); });
+
+// ---------- 交互 ----------
+const raycaster = new THREE.Raycaster();
+const pointer = new THREE.Vector2();
+renderer.domElement.addEventListener('pointerdown', e => {
+  pointer.x = (e.clientX / renderer.domElement.clientWidth) * 2 - 1;
+  pointer.y = -(e.clientY / renderer.domElement.clientHeight) * 2 + 1;
+  raycaster.setFromCamera(pointer, camera);
+  const hits = raycaster.intersectObjects(partNodes.map(p => p.node), true);
+  if (hits.length) {
+    let obj = hits[0].object, chain = [];
+    while (obj && chain.length < 6) { chain.push(obj.name); obj = obj.parent; }
+    for (const name of chain) {
+      const p = partNodes.find(x => name === x.node.name || findMeta(name)?.base === x.base);
+      if (p) { select(p); return; }
+    }
+  }
+});
+window.addEventListener('resize', () => {
+  camera.aspect = wrap.clientWidth / wrap.clientHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(wrap.clientWidth, wrap.clientHeight);
+});
+function animate() { requestAnimationFrame(animate); controls.update(); renderer.render(scene, camera); }
+animate();
+</script>
+</body>
+</html>

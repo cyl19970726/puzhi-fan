@@ -1,0 +1,6 @@
+.DS_Store
+__pycache__/
+*.blend1
+# AI 图生3D 原始下载与 API 响应（体积大且可由 cad/ai_shell_gen.py 重新生成）
+cad/ai_shell_*/raw/
+cad/ai_shell_*/api/

@@ -1,0 +1,104 @@
+{
+ "img_w": 1200,
+ "img_h": 1600,
+ "spread": 1.25,
+ "paste": null,
+ "anchors": {
+  "ShellFront": {
+   "px": 408.2,
+   "py": 901.0,
+   "module": "M6",
+   "label": "前壳(2mm壁+1.5°拔模+出风/数显真孔+分件线)"
+  },
+  "ShellRear": {
+   "px": 782.5,
+   "py": 750.7,
+   "module": "M6",
+   "label": "后壳(2mm壁+1.5°拔模+进风/pill热排真孔)"
+  },
+  "GrilleLouvers": {
+   "px": 222.7,
+   "py": 937.1,
+   "module": "M6",
+   "label": "横向百叶×10(定角20°,非放射辐条)"
+  },
+  "Knob": {
+   "px": 616.2,
+   "py": 556.3,
+   "module": "M3",
+   "label": "旋钮(100档FOC)"
+  },
+  "DisplayGlass": {
+   "px": 502.7,
+   "py": 616.7,
+   "module": "M7",
+   "label": "斜面数显窗 PMMA(搭接唇边2mm)"
+  },
+  "M7_Module": {
+   "px": 549.8,
+   "py": 680.8,
+   "module": "M7",
+   "label": "数码管模组(斜面背面)"
+  },
+  "Base": {
+   "px": 606.4,
+   "py": 1045.1,
+   "module": "M1",
+   "label": "配重底座Ø110(3×Ø2.5通孔+Ø5沉孔+配重袋)"
+  },
+  "WeightPlate": {
+   "px": 606.3,
+   "py": 1120.0,
+   "module": "M1",
+   "label": "钢配重盘 Ø88×3(低重心F3)"
+  },
+  "M2_Cell_A": {
+   "px": 686.9,
+   "py": 917.8,
+   "module": "M2",
+   "label": "18650 电芯 A(竖放)"
+  },
+  "M3_PCB": {
+   "px": 603.3,
+   "py": 790.9,
+   "module": "M3",
+   "label": "主控 PCB(冷侧进风路径上)"
+  },
+  "M4_FanFrame": {
+   "px": 606.9,
+   "py": 675.1,
+   "module": "M4",
+   "label": "风机框 Ø80(轴向竖吹)"
+  },
+  "M5_TEC": {
+   "px": 607.1,
+   "py": 550.4,
+   "module": "M5",
+   "label": "TEC 制冷片 40×40×3.8(冷面+Y/热面-Y)"
+  },
+  "M5_ColdFins": {
+   "px": 424.0,
+   "py": 791.5,
+   "module": "M5",
+   "label": "冷端铝鳍片组(风道沿Y朝前百叶)"
+  },
+  "M5_HotSink": {
+   "px": 769.3,
+   "py": 663.9,
+   "module": "M5",
+   "label": "热端铜鳍片组(风道沿Y朝背部pill)"
+  },
+  "M5_Separator": {
+   "px": 626.0,
+   "py": 412.6,
+   "module": "M5",
+   "label": "L形全长中隔板(ADR-1,竖板+底翻边,带EVA槽)"
+  },
+  "M6_TwistLock": {
+   "px": 150.3,
+   "py": 945.6,
+   "module": "M6",
+   "label": "网罩旋扣×3(转15°卡入,IF-3)"
+  }
+ }
+}
