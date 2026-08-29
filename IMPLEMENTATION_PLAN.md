@@ -52,4 +52,4 @@
 ## Stage 9: 3D 打印自打样（S8 前置解耦）
 **Goal**: 3D 打印结构件 + 购买功能件，单台 ≈¥400–600/1 周，把 T1–T7 热架构验证从 ODM 谈判解耦
 **Success Criteria**: cad/stl/ A 类件 STL 校验全绿 + PRINT_GUIDE + purchase_list（样品询价状态）
-**Status**: In Progress（依据 docs/prototype_3d_print_route.md；STL 导出与采购包执行中）
+**Status**: Complete（2026-08-30）→ `cad/stl/` 23 件 STL（Voxel Remesh 修复 15 件穿插/破面，731→227MB）+ `validation_report.md`（23/23 全绿，3 件工艺风险带建议）+ `PRINT_GUIDE.md` + `purchase_list.md`（六家旺旺样品询价已发待复，未支付）

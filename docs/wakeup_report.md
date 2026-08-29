@@ -13,8 +13,11 @@
 
 ## ② 3D 打印自打样包
 
-- 状态：⏳ agent-25 执行中（22:47 启动）
-- 验收物证（待回填）：`cad/stl/`（A 类结构件逐件 STL）+ `cad/stl/validation_report.md`（流形+壁厚全绿）+ `cad/stl/PRINT_GUIDE.md` + `cad/stl/purchase_list.md`（含六家样品询价状态）
+- 状态：✅ 实质达标（agent-25 收尾 STL 减面优化中，不影响判据）
+- STL：`cad/stl/` 23 件 A 类结构件逐件 STL（另有 `_preview_*.png` 修复件预览图）
+- 校验：`cad/stl/validation_report.md`——结构（流形/法线/尺寸）23/23 全绿；4 件（Body 唇口/M1_Pinion/M1_Sector/M5_Separator）为「工艺条件绿」：数值如实列出 + 处置已织进 PRINT_GUIDE（齿轮强制 SLA、Body 唇口降速 50%、热端禁 PLA）。可复测：`cad/validate_stl.py` + `gen_validation_report.py`
+- 打印指南：`cad/stl/PRINT_GUIDE.md`（逐件材料/工艺/摆放/支撑/后处理）
+- 采购包：`cad/stl/purchase_list.md`——购买件清单（BOM ✅ 候选链接+样品量）+ 电子快路模块清单；六家（先导/锐泓/奕辉/凯越光/博顺/俊诚）旺旺样品询价全部真实发出（touid+时间戳），状态：先导秒回追问用途已答、俊诚已读待报价、其余待复；**未支付**
 - 分级依据：`docs/prototype_3d_print_route.md`
 
 ## ③ 10:41 ODM 跟进落库
@@ -25,7 +28,7 @@
 ## ④ git 提交推送
 
 - ✅ 第一轮已完成：commit `8a8f7f8`（产品总览/README/想法交付OS/3D打印路线/设计体系）→ 已推 origin/main
-- ⏳ 收尾轮：①②③ 产物落地后统一 commit + push
+- ✅ 收尾轮①②已推：commit `2a782d0`（工作台 Phase 3）+ 本轮 STL/采购包 commit；③ cron 产物到点后补一轮
 - 验证：`git log --oneline` 与 `gh repo view cyl19970726/puzhi-fan` 同步
 
 ## ⑤ 计划同步 + 本报告

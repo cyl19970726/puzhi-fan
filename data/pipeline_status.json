@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-29 18:06:50",
+  "generated_at": "2026-08-30 02:13:13",
   "generated_by": "pipeline/status.py",
   "stages": [
     {
@@ -106,7 +106,7 @@
         {
           "path": "data/bom.json",
           "exists": true,
-          "mtime": "2026-08-29 11:36"
+          "mtime": "2026-08-30 00:24"
         }
       ],
       "gate": "每 SKU 出厂成本±15% 内；超标有处置方案（Q3 类决策）",
@@ -122,7 +122,7 @@
         {
           "path": "cad/*.glb",
           "exists": true,
-          "mtime": "2026-08-29 01:19"
+          "mtime": "2026-08-30 02:10"
         }
       ],
       "gate": "agent 亲自看图验收；mesh 命名映射 M1–M8",
