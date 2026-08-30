@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-30 05:01:42",
+  "generated_at": "2026-08-30 15:31:43",
   "generated_by": "pipeline/status.py",
   "stages": [
     {
@@ -106,7 +106,7 @@
         {
           "path": "data/bom.json",
           "exists": true,
-          "mtime": "2026-08-30 00:24"
+          "mtime": "2026-08-30 15:29"
         }
       ],
       "gate": "每 SKU 出厂成本±15% 内；超标有处置方案（Q3 类决策）",
@@ -138,7 +138,7 @@
         {
           "path": "data/decisions.json",
           "exists": true,
-          "mtime": "2026-08-30 05:01"
+          "mtime": "2026-08-30 15:31"
         }
       ],
       "gate": "每个「已验收/已选定」状态必须有 decision 记录（口头验收不算）",
